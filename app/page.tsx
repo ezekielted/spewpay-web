@@ -358,7 +358,7 @@ export default function HomePage() {
 
           <div className="flex flex-col gap-6 pt-10 border-t border-slate-200 dark:border-slate-900 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs font-black text-slate-500">
-              © {new Date().getFullYear()} Joint Fintech Inc. Licensed Institution.
+              © {new Date().getFullYear()} Clenja Inc. Licensed Institution.
             </p>
           </div>
         </Container>
