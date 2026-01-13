@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Wallet,
   BarChart3,
@@ -164,8 +165,20 @@ export default function HomePage() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32">
-          <Container>
+        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
+          {/* Background Image Container */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/assets/landing-page-stock-image.jpg"
+              alt="Clenja Background"
+              fill
+              priority
+              className="object-cover object-center opacity-50 dark:opacity-30"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
+          </div>
+
+          <Container className="relative z-10">
             <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-1.5 text-sm font-bold text-emerald-800 dark:text-emerald-400">
@@ -176,7 +189,8 @@ export default function HomePage() {
                   Ready for Teams
                 </div>
 
-                <h1 className="mt-8 text-5xl font-extrabold tracking-tight sm:text-7xl text-foreground">
+                {/* Refined Typography: Balanced Boldness */}
+                <h1 className="mt-8 text-5xl font-black uppercase tracking-tighter sm:text-7xl leading-[0.9] text-foreground">
                   Allocate money with{" "}
                   <span className="bg-gradient-to-r from-emerald-600 to-indigo-600 bg-clip-text text-transparent">
                     clarity
