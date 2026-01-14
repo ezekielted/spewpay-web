@@ -165,7 +165,7 @@ export default function HomePage() {
 
       <main>
         {/* Hero Section */}
-        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden">
+        <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-slate-950">
           {/* Background Image Container */}
           <div className="absolute inset-0 z-0">
             <Image
@@ -173,15 +173,16 @@ export default function HomePage() {
               alt="Clenja Background"
               fill
               priority
-              className="object-cover object-center opacity-50 dark:opacity-30"
+              className="object-cover object-center opacity-40"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
+            {/* Dark gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-slate-950/50 via-slate-950/80 to-background" />
           </div>
 
           <Container className="relative z-10">
             <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-200 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/10 px-4 py-1.5 text-sm font-bold text-emerald-800 dark:text-emerald-400">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-bold text-emerald-400">
                   <span className="relative flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
@@ -189,29 +190,28 @@ export default function HomePage() {
                   For Work & Family ❤️
                 </div>
 
-                {/* Refined Typography: Balanced Boldness */}
-                <h1 className="mt-8 text-5xl font-black uppercase tracking-tighter sm:text-7xl leading-[0.9] text-foreground">
+                <h1 className="mt-8 text-5xl font-black uppercase tracking-tighter sm:text-7xl leading-[0.9] text-white">
                   Allocate money with{" "}
-                  <span className="bg-gradient-to-r from-emerald-600 to-indigo-600 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-emerald-400 to-indigo-400 bg-clip-text text-transparent">
                     clarity
                   </span>
                   .
                 </h1>
 
-                <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-400 sm:text-xl font-medium">
+                <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl font-medium">
                   The financial operating system for modern teams. Create shared wallets, set spending limits, and manage allocations with ease.
                 </p>
 
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                   <Link
                     href="/signup"
-                    className="flex items-center justify-center gap-2 rounded-full bg-slate-900 dark:bg-slate-50 px-8 py-4 text-base font-bold text-white dark:text-slate-950 hover:bg-slate-800 dark:hover:bg-slate-200 transition-all shadow-xl shadow-slate-900/20"
+                    className="flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-slate-950 hover:bg-slate-200 transition-all shadow-2xl shadow-emerald-500/20 hover:shadow-emerald-500/40"
                   >
                     Start for free <ArrowRight className="h-4 w-4" />
                   </Link>
                   <a
                     href="#features"
-                    className="flex items-center justify-center rounded-full border-2 border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-8 py-4 text-base font-bold text-slate-900 dark:text-slate-50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all"
+                    className="flex items-center justify-center rounded-full border-2 border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 text-base font-bold text-white hover:bg-white/10 transition-all shadow-xl shadow-black/40"
                   >
                     See Features
                   </a>
@@ -220,7 +220,7 @@ export default function HomePage() {
 
               {/* Preview Card */}
               <div className="relative group">
-                <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-200/50 dark:shadow-none transition-transform group-hover:-translate-y-2">
+                <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-2xl shadow-slate-950/50 transition-transform group-hover:-translate-y-2">
                   <div className="flex items-center justify-between mb-8">
                     <div>
                       <p className="text-xs font-black text-slate-500 uppercase tracking-widest">Main Account</p>
