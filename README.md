@@ -33,18 +33,18 @@ Open http://localhost:3000 with your browser to see the result.
 yarn build
 ```
 
-### 📂 Project Structure
+### Project Structure
 
-app/: Next.js pages and layouts. Includes Auth (Login/Signup) and the core Dashboard.
-services/: The API logic layer. All backend communication is centralized here.
-components/: Reusable UI elements and theme providers.
-public/: Static assets and icons.
+- app/: Next.js pages and layouts (Auth + Dashboard)
+- services/: Centralized API logic (Repository pattern)
+- components/: Reusable UI components and theme providers
+- public/: Static assets and icons
 
-### ✨ Key Features
+### Key Features
 
-Service-Based Architecture: Centralized API client using the Repository pattern for clean, maintainable code.
-Secure Auth Flow: Integrated Signup and Login pages connected to the Spewpay API.
-Real-time Dashboard: Live balance tracking and transaction history visualization.
-Wallet Onboarding: Intelligent "Create Wallet" flow for new users with simulated backend integration.
-Responsive Layout: Persistent sidebar and mobile-optimized navigation.
-Dual-Theme Support: Full Dark and Light mode support via CSS variables.
+- Service-Based Architecture: Centralized API client using the Repository pattern for clean and maintainable code.
+- Secure Authentication Flow: Signup and Login pages fully integrated with the Spewpay API.
+- Real-Time Dashboard: Live balance tracking and transaction history visualization.
+- Wallet Onboarding: Intelligent "Create Wallet" flow for new users with simulated backend integration.
+- Responsive Layout: Persistent sidebar with mobile-optimized navigation.
+- Dual Theme Support: Full light and dark mode support using CSS variables.
