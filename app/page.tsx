@@ -82,7 +82,7 @@ export default function HomePage() {
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background font-bold transition-transform group-hover:scale-105">
                 C
               </div>
-              <span className="text-lg font-bold tracking-tight text-foreground">CLENJA</span>
+              <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -169,7 +169,7 @@ export default function HomePage() {
           <div className="absolute inset-0 z-0">
             <Image
               src="/assets/landing-page-stock-image.jpg"
-              alt="Clenja Background"
+              alt="SPEWPAY Background"
               fill
               priority
               className="object-cover object-center opacity-40"
@@ -340,10 +340,10 @@ export default function HomePage() {
             <div className="space-y-6">
               <Link href="/" className="flex items-center gap-2">
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background font-bold">
-                  C
+                  S
                 </div>
                 <span className="text-lg font-bold tracking-tight text-foreground">
-                  CLENJA
+                  SPEWPAY
                 </span>
               </Link>
               <p className="text-sm font-bold leading-relaxed text-foreground/70">
@@ -416,7 +416,7 @@ export default function HomePage() {
 
           <div className="flex flex-col gap-6 pt-10 border-t border-border sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs font-black text-foreground/50">
-              © {new Date().getFullYear()} Clenja Inc. Licensed Institution.
+              © {new Date().getFullYear()} SPEWPAY Inc. Licensed Institution.
             </p>
           </div>
         </Container>
