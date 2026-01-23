@@ -80,7 +80,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between py-4">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background font-bold transition-transform group-hover:scale-105">
-                C
+                S
               </div>
               <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
             </Link>
