@@ -3,15 +3,17 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  ArrowUpRight, 
-  PlusCircle, 
-  History, 
+import {
+  LayoutDashboard,
+  ArrowUpRight,
+  PlusCircle,
+  History,
   LogOut,
   ShieldCheck,
   Menu,
-  X
+  X,
+  User,
+  BookOpen
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -26,6 +28,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: "Deposit", icon: PlusCircle, href: "/dashboard/deposit" },
     { label: "Send Money", icon: ArrowUpRight, href: "/dashboard/transfer" },
     { label: "History", icon: History, href: "/dashboard/history" },
+    { label: "Ledger", icon: BookOpen, href: "/dashboard/ledger" },
+    { label: "Profile", icon: User, href: "/dashboard/profile" },
   ];
 
   const handleLogout = () => {
@@ -50,11 +54,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all ${
-                  isActive 
-                    ? "bg-foreground text-background shadow-lg shadow-slate-200 dark:shadow-none" 
-                    : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-                }`}
+                className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-bold transition-all ${isActive
+                  ? "bg-foreground text-background shadow-lg shadow-slate-200 dark:shadow-none"
+                  : "text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
+                  }`}
               >
                 <item.icon className="h-5 w-5" />
                 {item.label}
@@ -64,22 +67,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         </nav>
 
         <div className="mt-auto space-y-4">
-          <button 
+          <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 w-full transition-colors text-left"
           >
             <LogOut className="h-5 w-5" />
             Logout
           </button>
-          
+
           <div className="p-4 bg-slate-100 dark:bg-slate-800 rounded-2xl flex items-center gap-3">
-             <ShieldCheck className="h-5 w-5 text-emerald-500" />
-             <p className="text-[10px] font-black uppercase text-slate-400 leading-tight">
-               Enterprise <br /> Protected
-             </p>
-             <div className="ml-auto">
-                <ThemeToggle />
-             </div>
+            <ShieldCheck className="h-5 w-5 text-emerald-500" />
+            <p className="text-[10px] font-black uppercase text-slate-400 leading-tight">
+              Enterprise <br /> Protected
+            </p>
+            <div className="ml-auto">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </aside>
@@ -87,43 +90,43 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Mobile Header --- */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card sticky top-0 z-50">
         <div className="flex items-center gap-2">
-            <div className="h-7 w-7 bg-foreground text-background rounded flex items-center justify-center font-black text-xs">S</div>
-            <span className="font-black uppercase tracking-tighter">Spewpay</span>
+          <div className="h-7 w-7 bg-foreground text-background rounded flex items-center justify-center font-black text-xs">S</div>
+          <span className="font-black uppercase tracking-tighter">Spewpay</span>
         </div>
         <div className="flex items-center gap-2">
-            <ThemeToggle />
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
-            >
-                {isMobileMenuOpen ? <X /> : <Menu />}
-            </button>
+          <ThemeToggle />
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+          >
+            {isMobileMenuOpen ? <X /> : <Menu />}
+          </button>
         </div>
       </div>
 
       {/* --- Mobile Menu Overlay --- */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-background pt-20 p-6 flex flex-col">
-            <nav className="space-y-4">
-                {navItems.map((item) => (
-                    <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter border-b border-border pb-4"
-                    >
-                        <item.icon className="h-6 w-6" />
-                        {item.label}
-                    </Link>
-                ))}
-                <button 
-                    onClick={handleLogout}
-                    className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter text-red-500 pt-4"
-                >
-                    <LogOut className="h-6 w-6" />
-                    Logout
-                </button>
-            </nav>
+          <nav className="space-y-4">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter border-b border-border pb-4"
+              >
+                <item.icon className="h-6 w-6" />
+                {item.label}
+              </Link>
+            ))}
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-4 text-xl font-black uppercase tracking-tighter text-red-500 pt-4"
+            >
+              <LogOut className="h-6 w-6" />
+              Logout
+            </button>
+          </nav>
         </div>
       )}
 
