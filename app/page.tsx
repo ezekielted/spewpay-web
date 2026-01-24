@@ -16,7 +16,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle"; 
 
 const features = [
   {
@@ -74,54 +74,34 @@ export default function HomePage() {
         <div className="absolute top-1/2 -right-20 h-96 w-96 rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[120px]" />
       </div>
 
-      {/* Header - Strictly using background and border variables */}
+      {/* Header */}
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-md">
         <Container>
           <div className="flex items-center justify-between py-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background font-bold transition-transform group-hover:scale-105">
-                S
+              {/* LOGO INTEGRATION */}
+              <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+                <Image 
+                  src="/assets/logo.ico" 
+                  alt="Spewpay Logo" 
+                  fill 
+                  className="object-contain"
+                />
               </div>
               <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center gap-8">
-              <a
-                href="#features"
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#how"
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                How it works
-              </a>
-              <Link
-                href="/login"
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                Sign in
-              </Link>
+              <a href="#features" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Features</a>
+              <a href="#how" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">How it works</a>
+              <Link href="/login" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Sign in</Link>
             </nav>
 
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Link
-                href="/signup"
-                className="hidden sm:inline-flex rounded-full bg-foreground px-5 py-2 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md"
-              >
-                Get started
-              </Link>
-
-              {/* Hamburger Menu Toggle (Mobile Only) */}
-              <button
-                className="md:hidden p-2 text-foreground/70"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                aria-label="Toggle menu"
-              >
+              <Link href="/signup" className="hidden sm:inline-flex rounded-full bg-foreground px-5 py-2 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
+              <button className="md:hidden p-2 text-foreground/70" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
             </div>
@@ -130,34 +110,10 @@ export default function HomePage() {
           {/* Mobile Navigation Menu */}
           {isMenuOpen && (
             <nav className="md:hidden flex flex-col gap-4 pb-6 pt-2 border-t border-border bg-background animate-in slide-in-from-top-4 duration-200">
-              <a
-                href="#features"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#how"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                How it works
-              </a>
-              <Link
-                href="/login"
-                onClick={() => setIsMenuOpen(false)}
-                className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                onClick={() => setIsMenuOpen(false)}
-                className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md"
-              >
-                Get started
-              </Link>
+              <a href="#features" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Features</a>
+              <a href="#how" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">How it works</a>
+              <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Sign in</Link>
+              <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
             </nav>
           )}
         </Container>
@@ -190,10 +146,7 @@ export default function HomePage() {
 
                 <h1 className="mt-8 text-5xl font-black uppercase tracking-tighter sm:text-7xl leading-[0.9] text-white">
                   Allocate money with{" "}
-                  <span className="bg-gradient-to-r from-emerald-400 to-indigo-400 bg-clip-text text-transparent">
-                    clarity
-                  </span>
-                  .
+                  <span className="bg-gradient-to-r from-emerald-400 to-indigo-400 bg-clip-text text-transparent">clarity</span>.
                 </h1>
 
                 <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-300 sm:text-xl font-medium">
@@ -201,16 +154,10 @@ export default function HomePage() {
                 </p>
 
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                  <Link
-                    href="/signup"
-                    className="flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-slate-950 hover:bg-slate-200 transition-all shadow-2xl shadow-emerald-500/20 hover:shadow-emerald-500/40"
-                  >
+                  <Link href="/signup" className="flex items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-base font-bold text-slate-950 hover:bg-slate-200 transition-all shadow-2xl shadow-emerald-500/20 hover:shadow-emerald-500/40">
                     Start for free <ArrowRight className="h-4 w-4" />
                   </Link>
-                  <a
-                    href="#features"
-                    className="flex items-center justify-center rounded-full border-2 border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 text-base font-bold text-white hover:bg-white/10 transition-all shadow-xl shadow-black/40"
-                  >
+                  <a href="#features" className="flex items-center justify-center rounded-full border-2 border-white/20 bg-white/5 backdrop-blur-sm px-8 py-4 text-base font-bold text-white hover:bg-white/10 transition-all shadow-xl shadow-black/40">
                     See Features
                   </a>
                 </div>
@@ -234,10 +181,7 @@ export default function HomePage() {
                       { name: "Product Management", icon: "🚀", amount: "₦ 850k", meta: "7 Members" },
                       { name: "Sales & Operations", icon: "📣", amount: "₦ 400k", meta: "Reset in 4 days" }
                     ].map((w, i) => (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between p-3.5 rounded-xl bg-background/50 border border-border"
-                      >
+                      <div key={i} className="flex items-center justify-between p-3.5 rounded-xl bg-background/50 border border-border">
                         <div className="flex items-center gap-3">
                           <span className="text-xl">{w.icon}</span>
                           <div>
@@ -256,22 +200,14 @@ export default function HomePage() {
         </section>
 
         {/* Features Section */}
-        <section
-          id="features"
-          className="py-24 bg-card border-y border-border"
-        >
+        <section id="features" className="py-24 bg-card border-y border-border">
           <Container>
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">
-                Powering financial workflows
-              </h2>
+              <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">Powering financial workflows</h2>
             </div>
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {features.map((f) => (
-                <div
-                  key={f.title}
-                  className="group rounded-2xl border border-border bg-background p-8 transition-all hover:shadow-xl hover:-translate-y-1"
-                >
+                <div key={f.title} className="group rounded-2xl border border-border bg-background p-8 transition-all hover:shadow-xl hover:-translate-y-1">
                   <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-foreground/10 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white transition-all shadow-sm">
                     {f.icon}
                   </div>
@@ -287,137 +223,77 @@ export default function HomePage() {
         <section id="how" className="py-24 bg-background">
           <Container>
             <div className="text-center max-w-3xl mx-auto mb-16">
-              <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">
-                How it works in 3 simple steps
-              </h2>
-              <p className="mt-5 text-lg text-foreground/70 font-medium">
-                Get started quickly and manage money with your team in minutes.
-              </p>
+              <h2 className="text-3xl font-extrabold sm:text-4xl text-foreground">How it works in 3 simple steps</h2>
+              <p className="mt-5 text-lg text-foreground/70 font-medium">Get started quickly and manage money with your team in minutes.</p>
             </div>
-
             <div className="grid gap-10 md:gap-12 lg:gap-16 md:grid-cols-3">
               {steps.map((step, index) => (
-                <div
-                  key={step.n}
-                  className="relative rounded-2xl border border-border bg-card p-8 transition-all hover:shadow-xl hover:-translate-y-1"
-                >
-                  <div className="absolute -top-5 left-8 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white font-bold text-lg shadow-lg">
-                    {step.n}
-                  </div>
-
+                <div key={step.n} className="relative rounded-2xl border border-border bg-card p-8 transition-all hover:shadow-xl hover:-translate-y-1">
+                  <div className="absolute -top-5 left-8 flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white font-bold text-lg shadow-lg">{step.n}</div>
                   <div className="mt-6">
-                    <h3 className="text-xl font-bold mb-4 text-foreground">
-                      {step.title}
-                    </h3>
-                    <p className="text-base leading-relaxed text-foreground/70 font-medium">
-                      {step.desc}
-                    </p>
+                    <h3 className="text-xl font-bold mb-4 text-foreground">{step.title}</h3>
+                    <p className="text-base leading-relaxed text-foreground/70 font-medium">{step.desc}</p>
                   </div>
-
-                  {index < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-8 w-16 h-0.5 bg-gradient-to-r from-emerald-500/30 to-indigo-500/30" />
-                  )}
+                  {index < steps.length - 1 && <div className="hidden md:block absolute top-1/2 -right-8 w-16 h-0.5 bg-gradient-to-r from-emerald-500/30 to-indigo-500/30" />}
                 </div>
               ))}
             </div>
-
             <div className="mt-16 text-center">
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-4 text-base font-bold text-background hover:opacity-90 transition-all shadow-xl shadow-foreground/10"
-              >
-                Get Started Now <ArrowRight className="h-4 w-4" />
-              </Link>
+              <Link href="/signup" className="inline-flex items-center gap-2 rounded-full bg-foreground px-8 py-4 text-base font-bold text-background hover:opacity-90 transition-all shadow-xl shadow-foreground/10">Get Started Now <ArrowRight className="h-4 w-4" /></Link>
             </div>
           </Container>
         </section>
       </main>
 
-      {/* Footer - Strictly using background and border variables */}
+      {/* Footer */}
       <footer className="border-t border-border bg-background pt-20 pb-10">
         <Container>
           <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 mb-20">
             <div className="space-y-6">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background font-bold">
-                  S
+              <Link href="/" className="flex items-center gap-2 group">
+                {/* FOOTER LOGO INTEGRATION */}
+                <div className="relative h-8 w-8 overflow-hidden rounded-lg">
+                  <Image 
+                    src="/assets/logo.ico" 
+                    alt="Spewpay Logo" 
+                    fill 
+                    className="object-contain"
+                  />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-foreground">
-                  SPEWPAY
-                </span>
+                <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
               </Link>
-              <p className="text-sm font-bold leading-relaxed text-foreground/70">
-                Building the next generation of collaborative financial tools. Designed for speed.
-              </p>
+              <p className="text-sm font-bold leading-relaxed text-foreground/70">Building the next generation of collaborative financial tools. Designed for speed.</p>
               <div className="flex gap-4">
-                {[<Twitter key="t" className="h-4 w-4" />, <Github key="g" className="h-4 w-4" />, <Linkedin key="l" className="h-4 w-4" />].map(
-                  (icon, idx) => (
-                    <Link
-                      key={idx}
-                      href="#"
-                      className="p-2.5 rounded-full bg-card text-foreground hover:bg-emerald-500 hover:text-white transition-all shadow-sm border border-border"
-                    >
-                      {icon}
-                    </Link>
-                  )
-                )}
+                {[<Twitter key="t" className="h-4 w-4" />, <Github key="g" className="h-4 w-4" />, <Linkedin key="l" className="h-4 w-4" />].map((icon, idx) => (
+                  <Link key={idx} href="#" className="p-2.5 rounded-full bg-card text-foreground hover:bg-emerald-500 hover:text-white transition-all shadow-sm border border-border">{icon}</Link>
+                ))}
               </div>
             </div>
 
+            {/* ... other footer columns remain same ... */}
             <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">
-                Product
-              </h4>
+              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Product</h4>
               <ul className="space-y-4">
-                <li>
-                  <Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">
-                    Shared Wallets
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">
-                    Org Controls
-                  </Link>
-                </li>
+                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Shared Wallets</Link></li>
+                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Org Controls</Link></li>
               </ul>
             </div>
-
             <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">
-                Company
-              </h4>
+              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Company</h4>
               <ul className="space-y-4">
-                <li>
-                  <Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">
-                    About Us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">
-                    Contact
-                  </Link>
-                </li>
+                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">About Us</Link></li>
+                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Contact</Link></li>
               </ul>
             </div>
-
             <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">
-                Legal
-              </h4>
+              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Legal</h4>
               <ul className="space-y-4">
-                <li>
-                  <Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">
-                    Privacy Policy
-                  </Link>
-                </li>
+                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Privacy Policy</Link></li>
               </ul>
             </div>
           </div>
-
           <div className="flex flex-col gap-6 pt-10 border-t border-border sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs font-black text-foreground/50">
-              © {new Date().getFullYear()} SPEWPAY Inc. Licensed Institution.
-            </p>
+            <p className="text-xs font-black text-foreground/50">© {new Date().getFullYear()} SPEWPAY Inc. Licensed Institution.</p>
           </div>
         </Container>
       </footer>

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Added for redirection
+import Image from "next/image"; // Added Image import
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Mail,
@@ -13,10 +14,10 @@ import {
   ChevronLeft,
   User,
   ShieldCheck,
-  Loader2, // Added for loading state
+  Loader2,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { authService } from "@/services"; // Relative path to services
+import { authService } from "@/services";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function SignupPage() {
 
   const [formData, setFormData] = useState({
     fullName: "",
-    identifier: "", // This will be sent as 'email' to the backend
+    identifier: "",
     password: "",
     confirmPassword: "",
   });
@@ -43,9 +44,8 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      // UPDATED PAYLOAD TO MATCH BACKEND EXPECTATIONS
       const payload = {
-        displayName: formData.fullName, // Changed from fullName to displayName
+        displayName: formData.fullName,
         email: formData.identifier,
         password: formData.password,
       };
@@ -56,9 +56,7 @@ export default function SignupPage() {
         router.push("/login?registered=true");
       }
     } catch (err: any) {
-      // Display the specific error from the backend if available
       const message = err.response?.data?.message || "Registration failed";
-      // If the error is an array (common in NestJS/class-validator), join it
       setError(Array.isArray(message) ? message.join(", ") : message);
     } finally {
       setIsLoading(false);
@@ -79,10 +77,16 @@ export default function SignupPage() {
       <header className="p-6">
         <div className="mx-auto max-w-7xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background font-bold transition-transform group-hover:scale-105">
-              S
+            {/* LOGO INTEGRATION */}
+            <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+              <Image
+                src="/assets/logo.ico"
+                alt="Spewpay Logo"
+                fill
+                className="object-contain"
+              />
             </div>
-            <span className="text-lg font-bold tracking-tight text-foreground">
+            <span className="text-lg font-bold tracking-tight text-foreground uppercase">
               SPEWPAY
             </span>
           </Link>
@@ -110,7 +114,6 @@ export default function SignupPage() {
               </p>
             </div>
 
-            {/* Error Message Alert */}
             {error && (
               <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm font-bold">
                 {error}

@@ -2,18 +2,28 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
+
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
 export const metadata: Metadata = {
-  title: "joint-fintech | Allocate money with clarity",
+  title: "Spewpay | Allocate money with clarity",
   description: "The financial operating system for modern individuals and organizations.",
+  // FAVICON INTEGRATION
+  icons: {
+    icon: "/assets/logo.ico",
+    shortcut: "/assets/logo.ico",
+    apple: "/assets/logo.ico",
+  },
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{

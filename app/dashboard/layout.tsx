@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image"; // Import Image component
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
@@ -17,7 +18,6 @@ import {
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-// This MUST be "export default"
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -43,8 +43,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Sidebar - Desktop --- */}
       <aside className="hidden md:flex w-72 flex-col border-r border-border bg-card p-6 fixed h-full">
         <div className="flex items-center gap-3 px-2 mb-10">
-          <div className="h-8 w-8 bg-foreground text-background rounded-lg flex items-center justify-center font-black">S</div>
-          <span className="font-black uppercase tracking-tighter text-lg">Spewpay</span>
+          {/* LOGO INTEGRATION - DESKTOP */}
+          <div className="relative h-8 w-8 overflow-hidden rounded-lg">
+            <Image 
+              src="/assets/logo.ico" 
+              alt="Spewpay Logo" 
+              fill 
+              className="object-contain"
+            />
+          </div>
+          <span className="font-black uppercase tracking-tighter text-lg text-foreground">Spewpay</span>
         </div>
 
         <nav className="flex-1 space-y-2">
@@ -90,8 +98,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Mobile Header --- */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-card sticky top-0 z-50">
         <div className="flex items-center gap-2">
-          <div className="h-7 w-7 bg-foreground text-background rounded flex items-center justify-center font-black text-xs">S</div>
-          <span className="font-black uppercase tracking-tighter">Spewpay</span>
+          {/* LOGO INTEGRATION - MOBILE */}
+          <div className="relative h-7 w-7 overflow-hidden rounded-md">
+            <Image 
+              src="/assets/logo.ico" 
+              alt="Spewpay Logo" 
+              fill 
+              className="object-contain"
+            />
+          </div>
+          <span className="font-black uppercase tracking-tighter text-foreground">Spewpay</span>
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />

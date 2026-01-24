@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, Suspense } from "react"; // Added Suspense
+import { useState, Suspense } from "react";
 import Link from "next/link";
+import Image from "next/image"; // Import Image
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Mail, Lock, Eye, EyeOff, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -121,15 +122,21 @@ function LoginForm() {
   );
 }
 
-// 2. The main Page component wraps the form in Suspense
+// 2. The main Page component
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col transition-colors duration-300">
       <header className="p-6">
         <div className="mx-auto max-w-7xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground text-background font-bold transition-transform group-hover:scale-105">
-              S
+            {/* LOGO INTEGRATION */}
+            <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
+              <Image
+                src="/assets/logo.ico"
+                alt="Spewpay Logo"
+                fill
+                className="object-contain"
+              />
             </div>
             <span className="text-lg font-bold tracking-tight text-foreground uppercase">
               SPEWPAY
@@ -140,7 +147,6 @@ export default function LoginPage() {
       </header>
 
       <main className="flex-1 flex items-center justify-center p-4">
-        {/* THIS SUSPENSE BOUNDARY FIXES THE VERCEL BUILD ERROR */}
         <Suspense fallback={<Loader2 className="animate-spin h-10 w-10 text-emerald-500" />}>
           <LoginForm />
         </Suspense>
