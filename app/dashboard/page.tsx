@@ -23,6 +23,25 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [creatingWallet, setCreatingWallet] = useState(false);
 
+  // 1. Robust Currency Formatter
+  const formatCurrency = (amount: any) => {
+    // Extract numeric value regardless of format (Object, String, or Number)
+    let value = 0;
+    if (typeof amount === 'object' && amount !== null) {
+      value = parseFloat(amount.kobo || amount.amount || 0);
+    } else {
+      value = parseFloat(amount || 0);
+    }
+
+    // If the value is still invalid (NaN), return ₦0.00
+    if (isNaN(value)) return "₦0.00";
+
+    return new Intl.NumberFormat('en-NG', {
+      style: 'currency',
+      currency: 'NGN',
+    }).format(value / 100); // Dividing by 100 to convert Kobo to Naira
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -33,9 +52,12 @@ export default function DashboardPage() {
         const walletRes = await walletService.getWalletByUserId(userId);
         const walletData = walletRes.data?.data || walletRes.data;
         
-        if (walletData && walletData.id) {
+        if (walletData && (walletData.id || walletData.uuid)) {
           setWallet(walletData);
-          const txRes = await walletService.getTransactions(walletData.id, 1, 5);
+          
+          // Fetch transactions only if wallet exists
+          const walletId = walletData.id || walletData.uuid;
+          const txRes = await walletService.getTransactions(walletId, 1, 5);
           const txData = txRes.data?.data || txRes.data || [];
           setTransactions(Array.isArray(txData) ? txData : []);
         } else {
@@ -70,13 +92,6 @@ export default function DashboardPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-NG', {
-      style: 'currency',
-      currency: 'NGN',
-    }).format(amount / 100);
-  };
-
   if (loading) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
@@ -96,6 +111,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2 relative overflow-hidden rounded-[3rem] bg-foreground p-8 md:p-12 text-background shadow-2xl flex flex-col justify-center min-h-[320px]">
           
           {!wallet ? (
+            /* CREATE WALLET CTA */
             <div className="relative z-10 space-y-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-500/30">
                 <Zap className="h-3 w-3 fill-current" /> Action Required
@@ -117,6 +133,7 @@ export default function DashboardPage() {
               </button>
             </div>
           ) : (
+            /* BALANCE DISPLAY */
             <div className="relative z-10 space-y-12">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 opacity-60">
@@ -126,7 +143,8 @@ export default function DashboardPage() {
                   </button>
                 </div>
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter">
-                  {formatCurrency(wallet.cachedBalance || 0)}
+                  {/* Supports both snake_case and camelCase from backend */}
+                  {formatCurrency(wallet.cached_balance ?? wallet.cachedBalance ?? 0)}
                 </h2>
               </div>
               <div className="flex flex-wrap gap-3">
@@ -134,7 +152,7 @@ export default function DashboardPage() {
                   {wallet.currency || 'NGN'}
                 </div>
                 <div className="px-5 py-2.5 rounded-2xl bg-white/10 text-[10px] font-black uppercase tracking-widest border border-white/5 backdrop-blur-xl opacity-60">
-                  REF: {wallet.id.slice(0, 8)}
+                  REF: {(wallet.id || wallet.uuid || "").slice(0, 8)}
                 </div>
               </div>
             </div>
@@ -224,13 +242,14 @@ export default function DashboardPage() {
                     <div>
                       <p className="font-black text-sm md:text-lg">{tx.type}</p>
                       <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mt-0.5">
-                        {new Date(tx.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+                        {new Date(tx.createdAt || tx.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
                       </span>
                     </div>
                   </div>
                   <div className="text-right">
                     <p className={`font-black text-xl md:text-2xl tracking-tighter ${tx.type === 'DEPOSIT' ? 'text-emerald-600' : ''}`}>
-                      {tx.type === 'DEPOSIT' ? '+' : '-'}{formatCurrency(tx.amount)}
+                      {tx.type === 'DEPOSIT' ? '+' : '-'}
+                      {formatCurrency(tx.amount)}
                     </p>
                     <div className="flex items-center justify-end gap-2 mt-1">
                       <span className={`h-1.5 w-1.5 rounded-full ${tx.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
