@@ -17,7 +17,13 @@ export const transferService = {
   withdraw: (data: { userId: string; recipientId: string; amountInNaira: number; reason?: string; idempotencyKey?: string }) =>
     apiClient.post('/transfers/withdraw', data),
 
-  internalTransfer: (data: { amountInNaira: number; destinationWalletId: string; reason?: string }) =>
+  // UPDATE THIS METHOD SPECIFICALLY
+  internalTransfer: (data: { 
+    sourceUserId: string; 
+    destinationUserId: string; 
+    amountInNaira: number; 
+    description?: string 
+  }) =>
     apiClient.post('/transfers/internal', data),
 
   deleteRecipient: (recipientId: string) =>
