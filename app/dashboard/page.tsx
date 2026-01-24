@@ -1,27 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { walletService } from "../../services";
+import { walletService, userService } from "../../services"; // Added userService
 import { 
   Plus, 
   ArrowUpRight, 
   ArrowDownLeft, 
   History, 
-  Wallet, 
   ArrowRight, 
-  Sparkles, 
-  Loader2, 
   ShieldCheck, 
   Zap, 
-  RefreshCw 
+  RefreshCw,
+  Calendar,
+  UserCircle
 } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
+  const [user, setUser] = useState<any>(null); // State for User
   const [wallet, setWallet] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [creatingWallet, setCreatingWallet] = useState(false);
+
+  // Helper: Get current date string
+  const currentDate = new Date().toLocaleDateString('en-GB', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long' 
+  });
 
   const formatCurrency = (amount: any) => {
     let value = 0;
@@ -44,44 +51,44 @@ export default function DashboardPage() {
       const userId = localStorage.getItem("userId");
       if (!userId) return;
 
-      try {
-        // 1. Get Wallet Object
-        const walletRes = await walletService.getWalletByUserId(userId);
-        const walletData = walletRes.data?.data || walletRes.data;
+      // Parallel Fetching: Get User AND Wallet data simultaneously for speed
+      const [userRes, walletRes] = await Promise.allSettled([
+        userService.getUserById(userId),
+        walletService.getWalletByUserId(userId)
+      ]);
+
+      // 1. Handle User Data
+      if (userRes.status === 'fulfilled') {
+        const userData = userRes.value.data?.data || userRes.value.data;
+        setUser(userData);
+      }
+
+      // 2. Handle Wallet Data
+      if (walletRes.status === 'fulfilled') {
+        const walletData = walletRes.value.data?.data || walletRes.value.data;
         
         if (walletData && (walletData.id || walletData.uuid)) {
           const walletId = walletData.id || walletData.uuid;
 
-          // 2. Fetch the "Absolute Truth" Balance from the Ledger endpoint
-          // This ensures we get the most recent deposit even if cached_balance is stale
+          // Fetch absolute ledger balance
           const balanceRes = await walletService.getBalance(walletId);
           const balanceData = balanceRes.data?.data || balanceRes.data;
 
-          // 3. Merge wallet data with fresh balance
-          // Priority: balanceData.balance > balanceData.cached_balance > walletData.cached_balance
           const freshBalance = 
             balanceData?.balance ?? 
             balanceData?.cached_balance ?? 
             balanceData?.cachedBalance ?? 
             walletData?.cached_balance ?? 0;
 
-          setWallet({
-            ...walletData,
-            displayBalance: freshBalance
-          });
+          setWallet({ ...walletData, displayBalance: freshBalance });
           
-          // 4. Fetch Transactions
+          // Fetch Transactions
           const txRes = await walletService.getTransactions(walletId, 1, 5);
           const txData = txRes.data?.data || txRes.data || [];
           setTransactions(Array.isArray(txData) ? txData : []);
-          
-          console.log("Spewpay Debug: Wallet Loaded", { id: walletId, balance: freshBalance });
         } else {
           setWallet(null);
         }
-      } catch (walletErr: any) {
-        console.error("Wallet Fetch Error:", walletErr.response?.status);
-        setWallet(null);
       }
     } catch (err) {
       console.error("Dashboard Load Error:", err);
@@ -108,23 +115,56 @@ export default function DashboardPage() {
     }
   };
 
+  // Loading Skeleton (More interesting than just a spinner)
   if (loading) {
     return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center gap-4">
-        <Loader2 className="h-10 w-10 text-emerald-500 animate-spin" />
-        <p className="text-slate-500 font-bold uppercase text-[10px] tracking-[0.2em]">Syncing Ledger...</p>
+      <div className="min-h-[80vh] flex flex-col items-center justify-center gap-6 animate-pulse">
+        <div className="h-16 w-16 bg-emerald-500/20 rounded-full flex items-center justify-center">
+            <Zap className="h-8 w-8 text-emerald-500 animate-bounce" />
+        </div>
+        <div className="space-y-2 text-center">
+            <p className="text-lg font-black tracking-tight text-foreground">Spewpay</p>
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Securing connection...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-4 md:p-10 space-y-10 animate-in fade-in duration-700">
+    <div className="p-4 md:p-10 space-y-8 animate-in fade-in duration-700">
       
+      {/* 0. NEW: WELCOME HEADER */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-border/50">
+        <div className="space-y-2">
+            <div className="flex items-center gap-2 text-slate-500 font-bold text-xs uppercase tracking-widest">
+                <Calendar className="h-3 w-3" />
+                {currentDate}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-foreground">
+                Hello, <span className="text-emerald-500">{user?.displayName?.split(' ')[0] || 'Friend'}</span> 👋
+            </h1>
+            <p className="text-slate-500 font-bold text-sm">Here is your financial overview for today.</p>
+        </div>
+        
+        {wallet && (
+            <div className="flex items-center gap-3 bg-card border border-border px-4 py-2 rounded-2xl shadow-sm">
+                <UserCircle className="h-8 w-8 text-slate-300" />
+                <div className="text-right">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Account Status</p>
+                    <div className="flex items-center gap-1.5 justify-end">
+                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        <p className="text-xs font-bold text-emerald-600">Active</p>
+                    </div>
+                </div>
+            </div>
+        )}
+      </div>
+
       {/* 1. HERO SECTION */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Main Card */}
-        <div className="lg:col-span-2 relative overflow-hidden rounded-[3rem] bg-foreground p-8 md:p-12 text-background shadow-2xl flex flex-col justify-center min-h-[320px]">
+        <div className="lg:col-span-2 relative overflow-hidden rounded-[2.5rem] bg-foreground p-8 md:p-12 text-background shadow-2xl flex flex-col justify-center min-h-[300px]">
           
           {!wallet ? (
             <div className="relative z-10 space-y-8">
@@ -145,7 +185,7 @@ export default function DashboardPage() {
               </div>
             </div>
           ) : (
-            <div className="relative z-10 space-y-12">
+            <div className="relative z-10 space-y-10">
               <div className="space-y-2">
                 <div className="flex items-center gap-2 opacity-60">
                   <span className="text-sm font-bold uppercase tracking-[0.2em]">Total Balance</span>
@@ -154,7 +194,6 @@ export default function DashboardPage() {
                   </button>
                 </div>
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter">
-                  {/* Using displayBalance which was merged from getBalance() endpoint */}
                   {formatCurrency(wallet.displayBalance)}
                 </h2>
               </div>
@@ -163,7 +202,7 @@ export default function DashboardPage() {
                   {wallet.currency || 'NGN'}
                 </div>
                 <div className="px-5 py-2.5 rounded-2xl bg-white/10 text-[10px] font-black uppercase tracking-widest border border-white/5 backdrop-blur-xl opacity-60">
-                  REF: {(wallet.id || wallet.uuid || "").slice(0, 8)}
+                  ID: {(wallet.id || wallet.uuid || "").slice(0, 8)}
                 </div>
               </div>
             </div>
@@ -174,7 +213,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Info/Quick Actions Card */}
-        <div className="rounded-[3rem] border border-border bg-card p-8 flex flex-col justify-between shadow-sm">
+        <div className="rounded-[2.5rem] border border-border bg-card p-8 flex flex-col justify-between shadow-sm">
           {!wallet ? (
             <div className="space-y-8">
               <div className="h-14 w-14 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center">
@@ -184,7 +223,7 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="space-y-8">
-              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-2">Quick Access</span>
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] block mb-2">Quick Actions</span>
               <nav className="space-y-3">
                 <Link href="/dashboard/deposit" className="w-full flex items-center justify-between p-5 bg-background border border-border rounded-[1.5rem] hover:border-emerald-500/50 transition-all group font-bold">
                   <span className="flex items-center gap-4 font-black uppercase text-sm"><Plus className="h-5 w-5 text-emerald-500" /> Fund</span>
@@ -195,11 +234,11 @@ export default function DashboardPage() {
                   <ArrowRight className="h-4 w-4 opacity-30 group-hover:opacity-100" />
                 </Link>
               </nav>
-              <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl">
-                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Ledger Status</p>
+              <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-border/50">
+                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Ledger Sync</p>
                  <div className="text-xs font-bold text-emerald-600 mt-1 flex items-center gap-2">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    Synchronized
+                    Up to date
                  </div>
               </div>
             </div>
@@ -209,11 +248,11 @@ export default function DashboardPage() {
 
       {/* 2. ACTIVITY HISTORY */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between px-4">
-          <h3 className="text-2xl font-black tracking-tighter uppercase italic">Activity</h3>
+        <div className="flex items-center justify-between px-2">
+          <h3 className="text-2xl font-black tracking-tighter uppercase italic">Recent Activity</h3>
         </div>
         
-        <div className="bg-card border border-border rounded-[3rem] overflow-hidden">
+        <div className="bg-card border border-border rounded-[2.5rem] overflow-hidden shadow-sm">
           {!wallet || transactions.length === 0 ? (
             <div className="py-24 text-center space-y-5">
                <div className="mx-auto w-24 h-24 bg-slate-100 dark:bg-slate-800 rounded-[2.5rem] flex items-center justify-center">
