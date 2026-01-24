@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { walletService, userService } from "../../services"; // Added userService
+import { walletService, userService } from "../../services";
 import { 
   Plus, 
   ArrowUpRight, 
@@ -12,12 +12,13 @@ import {
   Zap, 
   RefreshCw,
   Calendar,
-  UserCircle
+  UserCircle,
+  Loader2 // <--- Added this missing import
 } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null); // State for User
+  const [user, setUser] = useState<any>(null);
   const [wallet, setWallet] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -51,7 +52,7 @@ export default function DashboardPage() {
       const userId = localStorage.getItem("userId");
       if (!userId) return;
 
-      // Parallel Fetching: Get User AND Wallet data simultaneously for speed
+      // Parallel Fetching: Get User AND Wallet data simultaneously
       const [userRes, walletRes] = await Promise.allSettled([
         userService.getUserById(userId),
         walletService.getWalletByUserId(userId)
@@ -115,7 +116,6 @@ export default function DashboardPage() {
     }
   };
 
-  // Loading Skeleton (More interesting than just a spinner)
   if (loading) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center gap-6 animate-pulse">
@@ -133,7 +133,7 @@ export default function DashboardPage() {
   return (
     <div className="p-4 md:p-10 space-y-8 animate-in fade-in duration-700">
       
-      {/* 0. NEW: WELCOME HEADER */}
+      {/* 0. WELCOME HEADER */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 pb-2 border-b border-border/50">
         <div className="space-y-2">
             <div className="flex items-center gap-2 text-slate-500 font-bold text-xs uppercase tracking-widest">
