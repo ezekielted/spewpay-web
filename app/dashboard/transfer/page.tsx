@@ -14,7 +14,6 @@ import {
     Plus,
     Search,
     ArrowRight,
-    RefreshCw,
 } from "lucide-react";
 
 interface Bank {
@@ -60,7 +59,7 @@ export default function TransferPage() {
     const [addingRecipient, setAddingRecipient] = useState(false);
 
     // Internal transfer state
-    const [destinationWallet, setDestinationWallet] = useState("");
+    const [destinationUserId, setDestinationUserId] = useState(""); 
     const [internalAmount, setInternalAmount] = useState("");
     const [internalReason, setInternalReason] = useState("");
     const [transferring, setTransferring] = useState(false);
@@ -77,7 +76,6 @@ export default function TransferPage() {
             const userId = localStorage.getItem("userId");
             if (!userId) return;
 
-            // Fetch wallet
             try {
                 const walletRes = await walletService.getWalletByUserId(userId);
                 const walletData = walletRes.data?.data || walletRes.data;
@@ -86,10 +84,7 @@ export default function TransferPage() {
                 console.log("No wallet found");
             }
 
-            // Fetch banks
             await fetchBanks();
-
-            // Fetch recipients
             await fetchRecipients();
         } catch (err) {
             console.error("Error loading data:", err);
@@ -207,7 +202,6 @@ export default function TransferPage() {
             setWithdrawReason("");
             setSelectedRecipient(null);
 
-            // Refresh wallet
             const walletRes = await walletService.getWalletByUserId(userId);
             setWallet(walletRes.data?.data || walletRes.data);
         } catch (err: any) {
@@ -217,32 +211,34 @@ export default function TransferPage() {
         }
     };
 
+    // --- FIXED: Updated to use 'description' instead of 'reason' ---
     const handleInternalTransfer = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!destinationWallet || !internalAmount) return;
+        if (!destinationUserId || !internalAmount) return;
 
         setTransferring(true);
         setTransferError(null);
         setTransferSuccess(false);
 
         try {
+            const sourceUserId = localStorage.getItem("userId");
+            if (!sourceUserId) throw new Error("User session not found");
+
             await transferService.internalTransfer({
-                destinationWalletId: destinationWallet,
+                sourceUserId,
+                destinationUserId: destinationUserId,
                 amountInNaira: parseFloat(internalAmount),
-                reason: internalReason || undefined,
+                description: internalReason || "Internal transfer", // Mapped internalReason to description
             });
 
             setTransferSuccess(true);
-            setDestinationWallet("");
+            setDestinationUserId("");
             setInternalAmount("");
             setInternalReason("");
 
-            // Refresh wallet
-            const userId = localStorage.getItem("userId");
-            if (userId) {
-                const walletRes = await walletService.getWalletByUserId(userId);
-                setWallet(walletRes.data?.data || walletRes.data);
-            }
+            // Refresh wallet balance
+            const walletRes = await walletService.getWalletByUserId(sourceUserId);
+            setWallet(walletRes.data?.data || walletRes.data);
         } catch (err: any) {
             setTransferError(err.response?.data?.message || "Transfer failed");
         } finally {
@@ -251,15 +247,9 @@ export default function TransferPage() {
     };
 
     const formatCurrency = (amount: number | undefined | null) => {
-        // Handle undefined, null, or NaN
         if (amount === undefined || amount === null || isNaN(amount)) {
-            return new Intl.NumberFormat("en-NG", {
-                style: "currency",
-                currency: "NGN",
-            }).format(0);
+            return "₦0.00";
         }
-        // If amount is already in Naira (small number), use as-is
-        // If amount is in Kobo (large number like 500000 for ₦5000), divide by 100
         const normalizedAmount = amount > 100000 ? amount / 100 : amount;
         return new Intl.NumberFormat("en-NG", {
             style: "currency",
@@ -618,13 +608,13 @@ export default function TransferPage() {
                         <form onSubmit={handleInternalTransfer} className="space-y-6">
                             <div className="space-y-2">
                                 <label className="text-sm font-bold opacity-80">
-                                    Recipient Wallet ID
+                                    Recipient User ID
                                 </label>
                                 <input
                                     type="text"
-                                    value={destinationWallet}
-                                    onChange={(e) => setDestinationWallet(e.target.value)}
-                                    placeholder="Enter wallet ID"
+                                    value={destinationUserId}
+                                    onChange={(e) => setDestinationUserId(e.target.value)}
+                                    placeholder="Enter User ID (UUID)"
                                     className="w-full px-4 py-4 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none font-mono"
                                     required
                                 />
@@ -661,7 +651,7 @@ export default function TransferPage() {
 
                             <button
                                 type="submit"
-                                disabled={!destinationWallet || !internalAmount || transferring}
+                                disabled={!destinationUserId || !internalAmount || transferring}
                                 className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-indigo-500 text-white font-bold hover:bg-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {transferring ? (
