@@ -12,7 +12,9 @@ import {
   Zap, 
   RefreshCw,
   Calendar,
-  Loader2
+  Loader2,
+  User,
+  Settings
 } from "lucide-react";
 import Link from "next/link";
 
@@ -127,15 +129,40 @@ export default function DashboardPage() {
   return (
     <div className="p-4 md:p-8 lg:p-10 space-y-8 md:space-y-12 animate-in fade-in duration-700">
       
-      {/* 0. CLEAN HEADER */}
-      <div className="flex flex-col gap-1">
-        <div className="flex items-center gap-2 text-slate-500 font-bold text-xs uppercase tracking-widest">
-            <Calendar className="h-3 w-3" />
-            {currentDate}
+      {/* 0. HEADER SECTION */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-border/50">
+        
+        {/* Left: Greeting */}
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2 text-slate-500 font-bold text-xs uppercase tracking-widest">
+              <Calendar className="h-3 w-3" />
+              {currentDate}
+          </div>
+          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-foreground">
+              Hello, <span className="text-emerald-500">{user?.displayName?.split(' ')[0] || 'User'}</span>
+          </h1>
         </div>
-        <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-foreground">
-            Hello, <span className="text-emerald-500">{user?.displayName?.split(' ')[0] || 'User'}</span>
-        </h1>
+
+        {/* Right: Profile & Status Button */}
+        <Link 
+            href="/dashboard/profile"
+            className="flex items-center gap-4 bg-background border border-border p-2 pr-6 rounded-full hover:border-emerald-500/50 hover:shadow-md transition-all group"
+        >
+            <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                <User className="h-5 w-5" />
+            </div>
+            <div className="space-y-0.5">
+                <p className="text-xs font-bold text-foreground group-hover:text-emerald-600 transition-colors">
+                    My Profile
+                </p>
+                <div className="flex items-center gap-1.5">
+                    <div className={`h-1.5 w-1.5 rounded-full ${user?.status === 'ACTIVE' ? 'bg-emerald-500' : 'bg-amber-500'} animate-pulse`} />
+                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                        {user?.status || 'Offline'}
+                    </p>
+                </div>
+            </div>
+        </Link>
       </div>
 
       {/* 1. HERO SECTION */}
@@ -229,14 +256,15 @@ export default function DashboardPage() {
                 </nav>
               </div>
               
-              <div className="mt-6 p-4 bg-slate-100 dark:bg-slate-800/50 rounded-2xl flex items-center justify-between">
+              {/* FIXED CONTRAST: Changed bg to bg-background and added border */}
+              <div className="mt-6 p-4 bg-background border border-border rounded-2xl flex items-center justify-between">
                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">System Status</p>
                  <div className="flex items-center gap-2">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                     </span>
-                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wide">Live</span>
+                    <span className="text-[10px] font-bold text-foreground uppercase tracking-wide">Live</span>
                  </div>
               </div>
             </>
