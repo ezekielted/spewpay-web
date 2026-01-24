@@ -148,7 +148,8 @@ export default function DashboardPage() {
             href="/dashboard/profile"
             className="flex items-center gap-4 bg-background border border-border p-2 pr-6 rounded-full hover:border-emerald-500/50 hover:shadow-md transition-all group"
         >
-            <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+            {/* FIXED CONTRAST: Added text-slate-600 so it's visible in light mode */}
+            <div className="h-10 w-10 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-600 dark:text-slate-200 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
                 <User className="h-5 w-5" />
             </div>
             <div className="space-y-0.5">
@@ -213,7 +214,6 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Abstract Design Elements */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/20 blur-[120px] -mr-48 -mt-48 rounded-full pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-500/10 blur-[100px] -ml-32 -mb-32 rounded-full pointer-events-none" />
         </div>
@@ -256,7 +256,6 @@ export default function DashboardPage() {
                 </nav>
               </div>
               
-              {/* FIXED CONTRAST: Changed bg to bg-background and added border */}
               <div className="mt-6 p-4 bg-background border border-border rounded-2xl flex items-center justify-between">
                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">System Status</p>
                  <div className="flex items-center gap-2">
