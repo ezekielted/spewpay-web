@@ -297,8 +297,8 @@ export default function TransferPage() {
                 <button
                     onClick={() => setActiveTab("withdraw")}
                     className={`px-6 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === "withdraw"
-                        ? "bg-foreground text-background shadow-lg"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "glass-active text-foreground"
+                        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                         }`}
                 >
                     <span className="flex items-center gap-2">
@@ -309,8 +309,8 @@ export default function TransferPage() {
                 <button
                     onClick={() => setActiveTab("internal")}
                     className={`px-6 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === "internal"
-                        ? "bg-foreground text-background shadow-lg"
-                        : "text-muted-foreground hover:text-foreground"
+                        ? "glass-active text-foreground"
+                        : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                         }`}
                 >
                     <span className="flex items-center gap-2">
@@ -329,7 +329,7 @@ export default function TransferPage() {
                             <h2 className="text-xl font-black">Saved Recipients</h2>
                             <button
                                 onClick={() => setShowAddRecipient(!showAddRecipient)}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold text-sm"
                             >
                                 <Plus className="h-4 w-4" />
                                 Add New
@@ -419,7 +419,7 @@ export default function TransferPage() {
                                     <button
                                         onClick={handleAddRecipient}
                                         disabled={addingRecipient}
-                                        className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-foreground text-background font-bold hover:opacity-90 transition-all disabled:opacity-50"
+                                        className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-2xl glass-button text-foreground font-bold disabled:opacity-50"
                                     >
                                         {addingRecipient ? (
                                             <Loader2 className="h-5 w-5 animate-spin" />
@@ -560,7 +560,7 @@ export default function TransferPage() {
                             <button
                                 type="submit"
                                 disabled={!selectedRecipient || !withdrawAmount || withdrawing}
-                                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-foreground text-background font-bold hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-2xl glass-button text-foreground font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {withdrawing ? (
                                     <Loader2 className="h-5 w-5 animate-spin" />
@@ -652,7 +652,7 @@ export default function TransferPage() {
                             <button
                                 type="submit"
                                 disabled={!destinationUserId || !internalAmount || transferring}
-                                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-indigo-500 text-white font-bold hover:bg-indigo-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-2xl glass-button text-indigo-600 dark:text-indigo-400 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {transferring ? (
                                     <Loader2 className="h-5 w-5 animate-spin" />

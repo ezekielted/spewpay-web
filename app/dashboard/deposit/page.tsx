@@ -119,7 +119,7 @@ export default function DepositPage() {
           <div className="space-y-6">
             <button
               disabled={isLoading || !amount}
-              className="w-full bg-foreground text-background py-6 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 hover:opacity-90 transition-all shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed group"
+              className="w-full glass-button text-foreground py-6 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin h-6 w-6" />

@@ -113,7 +113,7 @@ function LoginForm() {
 
           <button 
             disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 rounded-full bg-foreground text-background px-8 py-4 font-bold hover:opacity-90 transition-all shadow-lg disabled:opacity-70"
+            className="w-full flex items-center justify-center gap-2 rounded-full glass-button text-foreground px-8 py-4 font-bold disabled:opacity-70"
           >
             {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Sign in <ArrowRight className="h-4 w-4" /></>}
           </button>

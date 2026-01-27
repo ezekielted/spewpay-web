@@ -124,7 +124,7 @@ export default function LedgerPage() {
                 </div>
                 <button
                     onClick={fetchLedger}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-fit"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button border border-border font-bold text-sm text-foreground w-fit"
                 >
                     <RefreshCw className="h-4 w-4" />
                     Refresh

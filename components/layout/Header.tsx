@@ -39,7 +39,7 @@ export function Header() {
 
             <div className="flex items-center gap-3">
               <ThemeToggle />
-              <Link href="/signup" className="hidden sm:inline-flex rounded-full bg-foreground px-5 py-2 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
+              <Link href="/signup" className="hidden sm:inline-flex rounded-full px-5 py-2 text-sm font-bold glass-button text-foreground">Get started</Link>
               <button className="md:hidden p-2 text-foreground/70" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </button>
@@ -52,7 +52,7 @@ export function Header() {
               <Link href="/#features" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Features</Link>
               <Link href="/#how" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">How it works</Link>
               <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Sign in</Link>
-              <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
+              <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-bold glass-button text-foreground">Get started</Link>
             </nav>
           )}
         </Container>

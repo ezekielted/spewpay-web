@@ -265,7 +265,7 @@ export default function OrganizationDetailPage() {
                     </h2>
                     <button
                         onClick={() => { setInviteError(null); setShowInviteModal(true); }}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-foreground font-bold text-sm"
                     >
                         <Mail className="h-4 w-4" />
                         Invite
@@ -320,7 +320,7 @@ export default function OrganizationDetailPage() {
                     </h2>
                     <button
                         onClick={() => setShowAllocationModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold text-sm"
                     >
                         <Plus className="h-4 w-4" />
                         Create Allocation
@@ -430,14 +430,14 @@ export default function OrganizationDetailPage() {
                         <div className="flex items-center gap-3 mt-8">
                             <button
                                 onClick={() => setShowInviteModal(false)}
-                                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 px-4 py-3 rounded-xl glass-button border border-border font-bold text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleInvite}
                                 disabled={processing || !inviteEmail.trim()}
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-foreground text-background font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl glass-button text-foreground font-bold disabled:opacity-50"
                             >
                                 {processing ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -494,14 +494,14 @@ export default function OrganizationDetailPage() {
                         <div className="flex items-center gap-3 mt-8">
                             <button
                                 onClick={() => setShowAllocationModal(false)}
-                                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 px-4 py-3 rounded-xl glass-button border border-border font-bold text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreateAllocation}
                                 disabled={processing || !allocationForm.name.trim()}
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-500 text-white font-bold hover:bg-emerald-600 disabled:opacity-50 transition-colors"
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold disabled:opacity-50 transition-colors"
                             >
                                 {processing ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />

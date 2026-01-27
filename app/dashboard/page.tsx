@@ -166,7 +166,7 @@ export default function DashboardPage() {
                   <button 
                     onClick={handleCreateWallet}
                     disabled={creatingWallet}
-                    className="flex items-center gap-2 bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-emerald-400 transition-all shadow-lg disabled:opacity-50 text-sm"
+                    className="flex items-center gap-2 glass-button text-emerald-600 dark:text-emerald-400 px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg disabled:opacity-50 text-sm"
                   >
                     {creatingWallet ? <Loader2 className="animate-spin h-4 w-4" /> : <>Create <ArrowRight className="h-4 w-4" /></>}
                   </button>

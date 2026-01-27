@@ -62,11 +62,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={item.href}
                 href={item.href}
                 className={`flex items-center gap-3 px-4 py-3.5 rounded-2xl font-bold transition-all group ${isActive
-                  ? "bg-foreground text-background shadow-lg shadow-foreground/5 "
-                  : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                  ? "glass-active text-foreground"
+                  : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                   }`}
               >
-                <item.icon className={`h-5 w-5 ${isActive ? "text-background" : "text-muted-foreground group-hover:text-foreground"}`} />
+                <item.icon className={`h-5 w-5 ${isActive ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
                 {item.label}
               </Link>
             );
@@ -126,7 +126,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 key={item.href}
                 href={item.href}
                 className={`flex flex-col items-center justify-center gap-1 p-3 rounded-2xl transition-all ${isActive
-                  ? "text-emerald-500 bg-emerald-500/10"
+                  ? "glass-active text-emerald-500"
                   : "text-muted-foreground hover:text-foreground"
                   }`}
               >

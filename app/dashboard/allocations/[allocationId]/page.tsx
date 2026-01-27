@@ -245,7 +245,7 @@ export default function AllocationDetailPage() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => setShowFundModal(true)}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 transition-colors"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold text-sm"
                         >
                             <DollarSign className="h-4 w-4" />
                             Fund
@@ -254,7 +254,7 @@ export default function AllocationDetailPage() {
                             <button
                                 onClick={handleFreeze}
                                 disabled={processing}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-500 text-white font-bold text-sm hover:bg-blue-600 disabled:opacity-50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-blue-600 dark:text-blue-400 font-bold text-sm disabled:opacity-50"
                             >
                                 <Snowflake className="h-4 w-4" />
                                 Freeze
@@ -263,7 +263,7 @@ export default function AllocationDetailPage() {
                             <button
                                 onClick={handleUnfreeze}
                                 disabled={processing}
-                                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-orange-500 text-white font-bold text-sm hover:bg-orange-600 disabled:opacity-50 transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-orange-600 dark:text-orange-400 font-bold text-sm disabled:opacity-50"
                             >
                                 <Sun className="h-4 w-4" />
                                 Unfreeze
@@ -329,7 +329,7 @@ export default function AllocationDetailPage() {
                     </h2>
                     <button
                         onClick={() => setShowRuleModal(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-purple-500 text-white font-bold text-sm hover:bg-purple-600 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-purple-600 dark:text-purple-400 font-bold text-sm"
                     >
                         <Plus className="h-4 w-4" />
                         Add Rule
@@ -397,14 +397,14 @@ export default function AllocationDetailPage() {
                         <div className="flex items-center gap-3 mt-8">
                             <button
                                 onClick={() => setShowFundModal(false)}
-                                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 px-4 py-3 rounded-xl glass-button border border-border font-bold text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleFund}
                                 disabled={processing || !fundAmount || parseFloat(fundAmount) <= 0}
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-emerald-500 text-white font-bold hover:bg-emerald-600 disabled:opacity-50 transition-colors"
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold disabled:opacity-50"
                             >
                                 {processing ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -475,14 +475,14 @@ export default function AllocationDetailPage() {
                         <div className="flex items-center gap-3 mt-8">
                             <button
                                 onClick={() => setShowRuleModal(false)}
-                                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 px-4 py-3 rounded-xl glass-button border border-border font-bold text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleAddRule}
                                 disabled={processing || !ruleForm.value}
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-purple-500 text-white font-bold hover:bg-purple-600 disabled:opacity-50 transition-colors"
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl glass-button text-purple-600 dark:text-purple-400 font-bold disabled:opacity-50"
                             >
                                 {processing ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />

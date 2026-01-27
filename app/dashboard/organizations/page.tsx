@@ -147,7 +147,7 @@ export default function OrganizationsPage() {
                 </div>
                 <button
                     onClick={() => setShowCreateModal(true)}
-                    className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity w-fit"
+                    className="flex items-center gap-2 px-5 py-3 rounded-2xl glass-button text-foreground font-bold text-sm w-fit"
                 >
                     <Plus className="h-4 w-4" />
                     Create Organization
@@ -177,7 +177,7 @@ export default function OrganizationsPage() {
                                     <button
                                         onClick={() => handleAcceptInvite(invite.id)}
                                         disabled={processingInvite === invite.id}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500 text-white font-bold text-sm hover:bg-emerald-600 disabled:opacity-50 transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-emerald-600 dark:text-emerald-400 font-bold text-sm disabled:opacity-50"
                                     >
                                         {processingInvite === invite.id ? (
                                             <Loader2 className="h-4 w-4 animate-spin" />
@@ -189,7 +189,7 @@ export default function OrganizationsPage() {
                                     <button
                                         onClick={() => handleDeclineInvite(invite.id)}
                                         disabled={processingInvite === invite.id}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 disabled:opacity-50 transition-colors"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button text-red-500 font-bold text-sm disabled:opacity-50"
                                     >
                                         <X className="h-4 w-4" />
                                         Decline
@@ -217,7 +217,7 @@ export default function OrganizationsPage() {
                     </div>
                     <button
                         onClick={() => setShowCreateModal(true)}
-                        className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-foreground text-background font-bold text-sm hover:opacity-90 transition-opacity"
+                        className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl glass-button text-foreground font-bold text-sm"
                     >
                         <Plus className="h-4 w-4" />
                         Create Organization
@@ -313,14 +313,14 @@ export default function OrganizationsPage() {
                         <div className="flex items-center gap-3 mt-8">
                             <button
                                 onClick={() => setShowCreateModal(false)}
-                                className="flex-1 px-4 py-3 rounded-xl bg-background border border-border font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                                className="flex-1 px-4 py-3 rounded-xl glass-button border border-border font-bold text-foreground"
                             >
                                 Cancel
                             </button>
                             <button
                                 onClick={handleCreateOrg}
                                 disabled={creating || !createForm.name.trim()}
-                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-foreground text-background font-bold hover:opacity-90 disabled:opacity-50 transition-opacity"
+                                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl glass-button text-foreground font-bold disabled:opacity-50"
                             >
                                 {creating ? (
                                     <Loader2 className="h-4 w-4 animate-spin" />
