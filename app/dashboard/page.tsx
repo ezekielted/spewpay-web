@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
+import { useBalanceVisibility } from "@/components/providers/balance-visibility-provider";
 
 // Helper: Format Currency
 const formatCurrency = (amount: any) => {
@@ -43,7 +44,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [creatingWallet, setCreatingWallet] = useState(false);
-  const [showBalance, setShowBalance] = useState(false);
+  const { isPrivate, togglePrivacy } = useBalanceVisibility();
 
   // Helper: Get current date string
   const currentDate = new Date().toLocaleDateString('en-GB', { 
@@ -179,15 +180,15 @@ export default function DashboardPage() {
                     <div className="flex items-center gap-3">
                          <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Total Balance</p>
                          <button 
-                            onClick={() => setShowBalance(!showBalance)}
+                            onClick={togglePrivacy}
                             className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white transition-colors"
                          >
-                            {showBalance ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                            {isPrivate ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                          </button>
                     </div>
                     <div className="flex items-center gap-3">
                       <h2 className="text-3xl md:text-5xl font-black tracking-tighter">
-                        {showBalance ? formatCurrency(wallet.displayBalance) : '****'}
+                        {!isPrivate ? formatCurrency(wallet.displayBalance) : '****'}
                       </h2>
                       <button onClick={fetchData} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white transition-colors p-1">
                         <RefreshCw className="h-4 w-4" />
@@ -286,7 +287,7 @@ export default function DashboardPage() {
                   <div className="text-right">
                     <p className={`font-black text-sm md:text-base tracking-tight ${tx.type === 'DEPOSIT' ? 'text-emerald-600' : 'text-foreground'}`}>
                       {tx.type === 'DEPOSIT' ? '+' : '-'}
-                      {showBalance ? formatCurrency(tx.amount) : '***'}
+                      {!isPrivate ? formatCurrency(tx.amount) : '***'}
                     </p>
                     <div className="flex items-center justify-end gap-1.5 mt-1">
                       <span className={`h-1.5 w-1.5 rounded-full ${tx.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`} />

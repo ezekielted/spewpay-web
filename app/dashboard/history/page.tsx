@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { walletService } from "../../../services";
+import { useBalanceVisibility } from "@/components/providers/balance-visibility-provider";
 import {
     ArrowUpRight,
     ArrowDownLeft,
@@ -34,7 +35,7 @@ export default function HistoryPage() {
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [wallet, setWallet] = useState<any>(null);
-    const [showAmounts, setShowAmounts] = useState(false);
+    const { isPrivate } = useBalanceVisibility();
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -230,13 +231,6 @@ export default function HistoryPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     <button
-                        onClick={() => setShowAmounts(!showAmounts)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button border border-border font-bold text-sm text-foreground w-fit"
-                    >
-                        {showAmounts ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                        {showAmounts ? 'Hide Balance' : 'Show Balance'}
-                    </button>
-                    <button
                         onClick={fetchData}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl glass-button border border-border font-bold text-sm text-foreground w-fit"
                     >
@@ -406,7 +400,7 @@ export default function HistoryPage() {
                                                     }`}
                                             >
                                                 {tx.type === "DEPOSIT" ? "+" : "-"}
-                                                {showAmounts ? formatCurrency(tx.amount) : "***"}
+                                                {!isPrivate ? formatCurrency(tx.amount) : "***"}
                                             </p>
                                         </div>
                                     </div>

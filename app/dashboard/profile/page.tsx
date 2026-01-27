@@ -14,7 +14,11 @@ import {
     AlertCircle,
     Copy,
     Check,
+    LogOut,
+    Settings,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface UserData {
     id: string;
@@ -38,6 +42,14 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [copied, setCopied] = useState<string | null>(null);
+    const router = useRouter();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("userEmail");
+        router.push("/login");
+    };
 
     useEffect(() => {
         fetchProfileData();
@@ -267,6 +279,37 @@ export default function ProfilePage() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Preferences & Actions */}
+                    <div className="grid md:grid-cols-2 gap-6">
+                        <Link href="/dashboard/settings/appearance" className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-emerald-500/30 transition-all group shadow-sm">
+                            <div className="flex items-center gap-4">
+                                <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <Settings className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <p className="font-bold">Appearance</p>
+                                    <p className="text-xs text-slate-500">Theme and display settings</p>
+                                </div>
+                            </div>
+                            <Check className="h-5 w-5 text-slate-300 group-hover:text-emerald-500 transition-colors" />
+                        </Link>
+
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-red-500/30 transition-all group shadow-sm text-left"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="h-12 w-12 rounded-2xl bg-red-500/10 text-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <LogOut className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <p className="font-bold text-red-600">Sign Out</p>
+                                    <p className="text-xs text-slate-500">Log out of your account</p>
+                                </div>
+                            </div>
+                        </button>
                     </div>
                 </div>
 

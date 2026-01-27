@@ -38,7 +38,6 @@ export function Header() {
             </nav>
 
             <div className="flex items-center gap-3">
-              <ThemeToggle />
               <Link href="/signup" className="hidden sm:inline-flex rounded-full px-5 py-2 text-sm font-bold glass-button text-foreground">Get started</Link>
               <button className="md:hidden p-2 text-foreground/70" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}

@@ -13,7 +13,8 @@ import {
   ShieldCheck,
   User,
   BookOpen,
-  Building2
+  Building2,
+  Settings
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -29,13 +30,22 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: "Ledger", icon: BookOpen, href: "/dashboard/ledger" },
     { label: "Organizations", icon: Building2, href: "/dashboard/organizations" },
     { label: "Profile", icon: User, href: "/dashboard/profile" },
+    { label: "Settings", icon: Settings, href: "/dashboard/settings" },
   ];
+
+  const [showLogout, setShowLogout] = React.useState(false);
+  const [userEmail, setUserEmail] = React.useState("");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("userEmail");
     router.push("/login");
   };
+
+  React.useEffect(() => {
+    setUserEmail(localStorage.getItem("userEmail") || "user@spewpay.com");
+  }, []);
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
@@ -73,23 +83,39 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           })}
         </nav>
 
-        <div className="mt-auto space-y-4">
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-destructive hover:bg-destructive/10 w-full transition-colors text-left"
+        <div className="mt-auto pt-6">
+          <div 
+            onClick={() => setShowLogout(!showLogout)}
+            className="p-4 bg-muted/50 hover:bg-muted rounded-2xl transition-all border border-border/50 cursor-pointer group"
           >
-            <LogOut className="h-5 w-5" />
-            Logout
-          </button>
-
-          <div className="p-4 bg-muted/50 rounded-2xl flex items-center gap-3 border border-border/50">
-            <ShieldCheck className="h-5 w-5 text-emerald-500" />
-            <p className="text-[10px] font-black uppercase text-muted-foreground leading-tight">
-              Enterprise <br /> Protected
-            </p>
-            <div className="ml-auto">
-              <ThemeToggle />
+            <div className="flex items-center gap-3 mb-1">
+              <div className="h-8 w-8 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                <User className="h-4 w-4" />
+              </div>
+              <div className="overflow-hidden">
+                <p className="text-[11px] font-black uppercase text-foreground leading-tight truncate">
+                  My Profile
+                </p>
+                <p className="text-[10px] text-muted-foreground font-medium truncate">
+                  {userEmail}
+                </p>
+              </div>
             </div>
+            
+            {showLogout && (
+              <div className="mt-4 pt-4 border-t border-border/50 animate-in slide-in-from-top-2 duration-200">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleLogout();
+                  }}
+                  className="flex items-center gap-3 px-3 py-2 rounded-xl font-bold text-xs text-destructive hover:bg-destructive/10 w-full transition-colors text-left"
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </aside>
@@ -108,7 +134,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
           <span className="font-black uppercase tracking-tighter text-lg text-foreground">Spewpay</span>
         </div>
-        <ThemeToggle />
+        <Link href="/dashboard/settings" className="p-2 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground transition-colors">
+            <Settings className="h-5 w-5" />
+        </Link>
       </div>
 
       {/* --- Main Content Area --- */}
@@ -131,18 +159,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                   }`}
               >
                 <item.icon className={`h-6 w-6 ${isActive ? "fill-current" : ""}`} />
-                {/* Optional: Add label if space permits, user requested ONLY icons but labels help accessibility. 
-                    User said "Use only their icons". I will hide labels. 
-                 */}
               </Link>
             );
           })}
-          <button
-            onClick={handleLogout}
-            className="flex flex-col items-center justify-center p-3 text-destructive/70 hover:text-destructive"
-          >
-            <LogOut className="h-6 w-6" />
-          </button>
         </nav>
       </div>
 
