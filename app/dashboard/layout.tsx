@@ -12,7 +12,8 @@ import {
   LogOut,
   ShieldCheck,
   User,
-  BookOpen
+  BookOpen,
+  Building2
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -26,6 +27,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     { label: "Send", icon: ArrowUpRight, href: "/dashboard/transfer" },
     { label: "History", icon: History, href: "/dashboard/history" },
     { label: "Ledger", icon: BookOpen, href: "/dashboard/ledger" },
+    { label: "Organizations", icon: Building2, href: "/dashboard/organizations" },
     { label: "Profile", icon: User, href: "/dashboard/profile" },
   ];
 
@@ -42,10 +44,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="flex items-center gap-3 px-2 mb-10">
           {/* LOGO INTEGRATION - DESKTOP */}
           <div className="relative h-9 w-9 overflow-hidden rounded-xl shadow-sm">
-            <Image 
-              src="/assets/logo.ico" 
-              alt="Spewpay Logo" 
-              fill 
+            <Image
+              src="/assets/logo.ico"
+              alt="Spewpay Logo"
+              fill
               className="object-contain"
             />
           </div>
@@ -97,10 +99,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="flex items-center gap-2">
           {/* LOGO INTEGRATION - MOBILE */}
           <div className="relative h-8 w-8 overflow-hidden rounded-lg">
-            <Image 
-              src="/assets/logo.ico" 
-              alt="Spewpay Logo" 
-              fill 
+            <Image
+              src="/assets/logo.ico"
+              alt="Spewpay Logo"
+              fill
               className="object-contain"
             />
           </div>
@@ -118,28 +120,28 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/90 backdrop-blur-xl border-t border-border pb-safe">
         <nav className="flex items-center justify-around p-2">
           {navItems.map((item) => {
-             const isActive = pathname === item.href;
-             return (
-               <Link
-                 key={item.href}
-                 href={item.href}
-                 className={`flex flex-col items-center justify-center gap-1 p-3 rounded-2xl transition-all ${isActive 
-                   ? "text-emerald-500 bg-emerald-500/10" 
-                   : "text-muted-foreground hover:text-foreground"
-                 }`}
-               >
-                 <item.icon className={`h-6 w-6 ${isActive ? "fill-current" : ""}`} />
-                 {/* Optional: Add label if space permits, user requested ONLY icons but labels help accessibility. 
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`flex flex-col items-center justify-center gap-1 p-3 rounded-2xl transition-all ${isActive
+                  ? "text-emerald-500 bg-emerald-500/10"
+                  : "text-muted-foreground hover:text-foreground"
+                  }`}
+              >
+                <item.icon className={`h-6 w-6 ${isActive ? "fill-current" : ""}`} />
+                {/* Optional: Add label if space permits, user requested ONLY icons but labels help accessibility. 
                     User said "Use only their icons". I will hide labels. 
                  */}
-               </Link>
-             );
+              </Link>
+            );
           })}
-          <button 
-             onClick={handleLogout}
-             className="flex flex-col items-center justify-center p-3 text-destructive/70 hover:text-destructive"
+          <button
+            onClick={handleLogout}
+            className="flex flex-col items-center justify-center p-3 text-destructive/70 hover:text-destructive"
           >
-             <LogOut className="h-6 w-6" />
+            <LogOut className="h-6 w-6" />
           </button>
         </nav>
       </div>
