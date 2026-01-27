@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Spewpay | Allocate money with clarity",
   description: "The financial operating system for modern individuals and organizations.",
+  manifest: "/manifest.json",
   // FAVICON INTEGRATION
   icons: {
     icon: "/assets/logo.ico",
