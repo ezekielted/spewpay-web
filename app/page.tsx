@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,14 +8,10 @@ import {
   Users,
   ShieldCheck,
   ArrowRight,
-  Plus,
-  Github,
-  Twitter,
-  Linkedin,
-  Menu,
-  X,
+  Plus
 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle"; 
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 const features = [
   {
@@ -64,62 +59,17 @@ function Container({ children, className = "" }: { children: React.ReactNode; cl
 }
 
 export default function HomePage() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col">
       {/* Background Glows */}
       <div className="pointer-events-none fixed inset-0 overflow-hidden -z-10">
         <div className="absolute -top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-emerald-500/5 dark:bg-emerald-500/10 blur-[120px]" />
         <div className="absolute top-1/2 -right-20 h-96 w-96 rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[120px]" />
       </div>
 
-      {/* Header */}
-      <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-md">
-        <Container>
-          <div className="flex items-center justify-between py-4">
-            <Link href="/" className="flex items-center gap-2 group">
-              {/* LOGO INTEGRATION */}
-              <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-                <Image 
-                  src="/assets/logo.ico" 
-                  alt="Spewpay Logo" 
-                  fill 
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
-            </Link>
+      <Header />
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center gap-8">
-              <a href="#features" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Features</a>
-              <a href="#how" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">How it works</a>
-              <Link href="/login" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Sign in</Link>
-            </nav>
-
-            <div className="flex items-center gap-3">
-              <ThemeToggle />
-              <Link href="/signup" className="hidden sm:inline-flex rounded-full bg-foreground px-5 py-2 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
-              <button className="md:hidden p-2 text-foreground/70" onClick={() => setIsMenuOpen(!isMenuOpen)} aria-label="Toggle menu">
-                {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-              </button>
-            </div>
-          </div>
-
-          {/* Mobile Navigation Menu */}
-          {isMenuOpen && (
-            <nav className="md:hidden flex flex-col gap-4 pb-6 pt-2 border-t border-border bg-background animate-in slide-in-from-top-4 duration-200">
-              <a href="#features" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Features</a>
-              <a href="#how" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">How it works</a>
-              <Link href="/login" onClick={() => setIsMenuOpen(false)} className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Sign in</Link>
-              <Link href="/signup" onClick={() => setIsMenuOpen(false)} className="inline-flex items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-bold text-background hover:opacity-90 transition-all shadow-md">Get started</Link>
-            </nav>
-          )}
-        </Container>
-      </header>
-
-      <main>
+      <main className="flex-1">
         {/* Hero Section */}
         <section className="relative pt-16 pb-20 lg:pt-24 lg:pb-32 overflow-hidden bg-slate-950">
           <div className="absolute inset-0 z-0">
@@ -245,58 +195,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-background pt-20 pb-10">
-        <Container>
-          <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 mb-20">
-            <div className="space-y-6">
-              <Link href="/" className="flex items-center gap-2 group">
-                {/* FOOTER LOGO INTEGRATION */}
-                <div className="relative h-8 w-8 overflow-hidden rounded-lg">
-                  <Image 
-                    src="/assets/logo.ico" 
-                    alt="Spewpay Logo" 
-                    fill 
-                    className="object-contain"
-                  />
-                </div>
-                <span className="text-lg font-bold tracking-tight text-foreground">SPEWPAY</span>
-              </Link>
-              <p className="text-sm font-bold leading-relaxed text-foreground/70">Building the next generation of collaborative financial tools. Designed for speed.</p>
-              <div className="flex gap-4">
-                {[<Twitter key="t" className="h-4 w-4" />, <Github key="g" className="h-4 w-4" />, <Linkedin key="l" className="h-4 w-4" />].map((icon, idx) => (
-                  <Link key={idx} href="#" className="p-2.5 rounded-full bg-card text-foreground hover:bg-emerald-500 hover:text-white transition-all shadow-sm border border-border">{icon}</Link>
-                ))}
-              </div>
-            </div>
-
-            {/* ... other footer columns remain same ... */}
-            <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Product</h4>
-              <ul className="space-y-4">
-                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Shared Wallets</Link></li>
-                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Org Controls</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Company</h4>
-              <ul className="space-y-4">
-                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">About Us</Link></li>
-                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-black uppercase tracking-widest mb-6 text-foreground">Legal</h4>
-              <ul className="space-y-4">
-                <li><Link href="#" className="text-sm font-bold text-foreground/70 hover:text-emerald-600 transition-colors">Privacy Policy</Link></li>
-              </ul>
-            </div>
-          </div>
-          <div className="flex flex-col gap-6 pt-10 border-t border-border sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs font-black text-foreground/50">© {new Date().getFullYear()} SPEWPAY Inc. Licensed Institution.</p>
-          </div>
-        </Container>
-      </footer>
+      <Footer />
     </div>
   );
 }

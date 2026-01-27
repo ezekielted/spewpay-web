@@ -276,13 +276,13 @@ export default function TransferPage() {
                     <h1 className="text-3xl md:text-4xl font-black tracking-tighter">
                         Send Money
                     </h1>
-                    <p className="text-slate-500 font-medium mt-1">
+                    <p className="text-muted-foreground font-medium mt-1">
                         Withdraw to bank or transfer to another Spewpay user
                     </p>
                 </div>
                 {wallet && (
-                    <div className="px-6 py-3 rounded-2xl bg-card border border-border">
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                    <div className="px-6 py-3 rounded-2xl bg-card border border-border shadow-sm">
+                        <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">
                             Available Balance
                         </p>
                         <p className="text-2xl font-black text-foreground">
@@ -293,12 +293,12 @@ export default function TransferPage() {
             </div>
 
             {/* Tab Navigation */}
-            <div className="flex gap-2 p-1.5 bg-card rounded-2xl border border-border w-fit">
+            <div className="flex gap-2 p-1.5 bg-muted/50 rounded-2xl border border-border w-fit">
                 <button
                     onClick={() => setActiveTab("withdraw")}
                     className={`px-6 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === "withdraw"
                         ? "bg-foreground text-background shadow-lg"
-                        : "text-slate-500 hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
                         }`}
                 >
                     <span className="flex items-center gap-2">
@@ -310,7 +310,7 @@ export default function TransferPage() {
                     onClick={() => setActiveTab("internal")}
                     className={`px-6 py-3 rounded-xl font-bold text-sm transition-all ${activeTab === "internal"
                         ? "bg-foreground text-background shadow-lg"
-                        : "text-slate-500 hover:text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
                         }`}
                 >
                     <span className="flex items-center gap-2">
@@ -436,10 +436,10 @@ export default function TransferPage() {
                         {/* Recipients List */}
                         <div className="space-y-3">
                             {recipients.length === 0 ? (
-                                <div className="p-8 rounded-3xl bg-card border border-border text-center">
-                                    <User className="h-12 w-12 text-slate-300 mx-auto mb-4" />
-                                    <p className="font-bold text-slate-500">No saved recipients</p>
-                                    <p className="text-sm text-slate-400 mt-1">
+                                <div className="p-8 rounded-3xl bg-muted/20 border border-border text-center">
+                                    <User className="h-12 w-12 text-muted-foreground/50 mx-auto mb-4" />
+                                    <p className="font-bold text-muted-foreground">No saved recipients</p>
+                                    <p className="text-sm text-muted-foreground/70 mt-1">
                                         Add a bank account to send money
                                     </p>
                                 </div>

@@ -2,12 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image"; // Added Image import
 import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Mail,
-  Phone,
   Lock,
   Eye,
   EyeOff,
@@ -16,8 +14,8 @@ import {
   ShieldCheck,
   Loader2,
 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { authService } from "@/services";
+import { SimpleHeader } from "@/components/layout/SimpleHeader";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -74,31 +72,13 @@ export default function SignupPage() {
         <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-indigo-500/5 dark:bg-indigo-500/10 blur-[120px]" />
       </div>
 
-      <header className="p-6">
-        <div className="mx-auto max-w-7xl flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            {/* LOGO INTEGRATION */}
-            <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-              <Image
-                src="/assets/logo.ico"
-                alt="Spewpay Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground uppercase">
-              SPEWPAY
-            </span>
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+      <SimpleHeader />
 
       <main className="flex-1 flex items-center justify-center p-4 py-12">
         <div className="w-full max-w-md">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-emerald-600 transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 transition-colors mb-8"
           >
             <ChevronLeft className="h-4 w-4" />
             Back to home
@@ -109,13 +89,13 @@ export default function SignupPage() {
               <h1 className="text-3xl font-extrabold text-foreground">
                 Get started
               </h1>
-              <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">
+              <p className="text-muted-foreground font-medium mt-2">
                 Join Spewpay and secure your digital assets today.
               </p>
             </div>
 
             {error && (
-              <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm font-bold">
+              <div className="mb-6 p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-bold">
                 {error}
               </div>
             )}
@@ -126,7 +106,7 @@ export default function SignupPage() {
                   Full Name
                 </label>
                 <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-emerald-500 transition-colors">
                     <User className="h-5 w-5" />
                   </div>
                   <input
@@ -137,7 +117,7 @@ export default function SignupPage() {
                     placeholder="John Doe"
                     value={formData.fullName}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
+                    className="w-full pl-12 pr-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -147,7 +127,7 @@ export default function SignupPage() {
                   Email
                 </label>
                 <div className="relative group">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-emerald-500 transition-colors">
                     <Mail className="h-5 w-5" />
                   </div>
                   <input
@@ -158,7 +138,7 @@ export default function SignupPage() {
                     placeholder="name@company.com"
                     value={formData.identifier}
                     onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
+                    className="w-full pl-12 pr-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
                   />
                 </div>
               </div>
@@ -177,7 +157,7 @@ export default function SignupPage() {
                       placeholder="••••••••"
                       value={formData.password}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
+                      className="w-full px-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
                     />
                   </div>
                 </div>
@@ -194,12 +174,12 @@ export default function SignupPage() {
                       placeholder="••••••••"
                       value={formData.confirmPassword}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
+                      className="w-full px-4 py-3 rounded-2xl border border-border bg-background text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all font-medium disabled:opacity-50"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-foreground transition-colors"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
                     >
                       {showPassword ? (
                         <EyeOff className="h-4 w-4" />
@@ -226,7 +206,7 @@ export default function SignupPage() {
               </button>
             </form>
 
-            <p className="mt-4 text-[11px] text-center text-slate-500 leading-relaxed">
+            <p className="mt-4 text-[11px] text-center text-muted-foreground leading-relaxed">
               By creating an account, you agree to our{" "}
               <Link href="#" className="underline hover:text-emerald-600">
                 Terms of Service
@@ -239,7 +219,7 @@ export default function SignupPage() {
             </p>
 
             <div className="mt-8 pt-8 border-t border-border text-center">
-              <p className="text-sm font-bold text-slate-500">
+              <p className="text-sm font-bold text-muted-foreground">
                 Already have an account?{" "}
                 <Link
                   href="/login"
@@ -251,7 +231,7 @@ export default function SignupPage() {
             </div>
           </div>
 
-          <div className="mt-8 flex items-center justify-center gap-2 text-slate-400">
+          <div className="mt-8 flex items-center justify-center gap-2 text-muted-foreground">
             <ShieldCheck className="h-4 w-4" />
             <p className="text-xs font-bold uppercase tracking-widest">
               Enterprise Grade Security

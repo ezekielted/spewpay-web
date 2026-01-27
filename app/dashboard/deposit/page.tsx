@@ -73,7 +73,7 @@ export default function DepositPage() {
       <div className="flex items-center justify-between">
         <Link 
           href="/dashboard" 
-          className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-slate-500 hover:text-foreground transition-colors"
+          className="flex items-center gap-2 text-sm font-black uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="h-4 w-4" /> Back
         </Link>
@@ -84,19 +84,19 @@ export default function DepositPage() {
 
       <div className="space-y-2">
         <h1 className="text-3xl font-black tracking-tighter uppercase italic">Fund Wallet</h1>
-        <p className="text-slate-500 font-bold">Top up your balance instantly via Paystack</p>
+        <p className="text-muted-foreground font-bold">Top up your balance instantly via Paystack</p>
       </div>
 
       {/* Main Deposit Card */}
-      <div className="bg-card border border-border rounded-[2.5rem] p-8 md:p-12 shadow-xl shadow-slate-200/50 dark:shadow-none">
+      <div className="bg-card border border-border rounded-[2.5rem] p-8 md:p-12 shadow-xl shadow-foreground/5">
         <form onSubmit={handleDeposit} className="space-y-10">
           
           <div className="space-y-4">
-            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-2">
+            <label className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground ml-2">
               Enter Amount (NGN)
             </label>
             <div className="relative group">
-              <span className="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-black text-slate-400 group-focus-within:text-emerald-500 transition-colors">
+              <span className="absolute left-6 top-1/2 -translate-y-1/2 text-3xl font-black text-muted-foreground/50 group-focus-within:text-emerald-500 transition-colors">
                 ₦
               </span>
               <input
@@ -105,13 +105,13 @@ export default function DepositPage() {
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="w-full bg-background border-2 border-border rounded-[2rem] pl-16 pr-8 py-8 text-4xl font-black focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-slate-200 dark:placeholder:text-slate-800"
+                className="w-full bg-background border-2 border-border rounded-[2rem] pl-16 pr-8 py-8 text-4xl font-black focus:outline-none focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/10 transition-all placeholder:text-muted-foreground/20 text-foreground"
               />
             </div>
           </div>
 
           {error && (
-            <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-600 text-xs font-black uppercase tracking-widest text-center">
+            <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-2xl text-destructive text-xs font-black uppercase tracking-widest text-center">
               {error}
             </div>
           )}
@@ -134,11 +134,11 @@ export default function DepositPage() {
             <div className="flex items-center justify-center gap-8 pt-4">
                <div className="flex items-center gap-2">
                   <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Bank-grade Security</span>
+                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">Bank-grade Security</span>
                </div>
                <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 text-emerald-500" />
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-tighter">Instant Funding</span>
+                  <span className="text-[10px] font-black text-muted-foreground uppercase tracking-tighter">Instant Funding</span>
                </div>
             </div>
           </div>
@@ -146,14 +146,14 @@ export default function DepositPage() {
       </div>
 
       {/* Info Notice */}
-      <div className="p-6 bg-slate-50 dark:bg-slate-900/50 rounded-3xl border border-border">
+      <div className="p-6 bg-muted/50 rounded-3xl border border-border">
          <div className="flex gap-4">
-            <div className="h-10 w-10 bg-white dark:bg-slate-800 rounded-xl flex items-center justify-center shrink-0 border border-border shadow-sm">
-               <CreditCard className="h-5 w-5 text-slate-400" />
+            <div className="h-10 w-10 bg-background rounded-xl flex items-center justify-center shrink-0 border border-border shadow-sm">
+               <CreditCard className="h-5 w-5 text-muted-foreground" />
             </div>
             <div className="space-y-1">
-               <p className="text-xs font-black uppercase tracking-tight">Payment Information</p>
-               <p className="text-xs text-slate-500 font-medium leading-relaxed">
+               <p className="text-xs font-black uppercase tracking-tight text-foreground">Payment Information</p>
+               <p className="text-xs text-muted-foreground font-medium leading-relaxed">
                   Payments are processed securely via Paystack. Your financial data is encrypted and never stored on our servers. Funds will appear in your balance immediately after a successful checkout.
                </p>
             </div>

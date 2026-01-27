@@ -2,11 +2,12 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import Image from "next/image"; // Import Image
+// Image import removed as it is in SimpleHeader
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowRight, Mail, Lock, Eye, EyeOff, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
-import { ThemeToggle } from "@/components/theme-toggle";
+// ThemeToggle removed as it is in SimpleHeader
 import { authService } from "../../services";
+import { SimpleHeader } from "@/components/layout/SimpleHeader";
 
 // 1. Move the actual logic into a separate component
 function LoginForm() {
@@ -43,7 +44,7 @@ function LoginForm() {
 
   return (
     <div className="w-full max-w-md">
-      <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-emerald-600 mb-8">
+      <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 mb-8 transition-colors">
         <ChevronLeft className="h-4 w-4" /> Back to home
       </Link>
 
@@ -57,13 +58,13 @@ function LoginForm() {
       <div className="rounded-3xl border border-border bg-card p-8 shadow-xl">
         <div className="mb-8">
           <h1 className="text-3xl font-extrabold text-foreground">Welcome back</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium mt-2">
+          <p className="text-muted-foreground font-medium mt-2">
             Enter your details to access your account.
           </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 text-sm font-bold">
+          <div className="mb-6 p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-bold">
             {error}
           </div>
         )}
@@ -72,7 +73,7 @@ function LoginForm() {
           <div className="space-y-2">
             <label className="text-sm font-bold opacity-80 ml-1">Email</label>
             <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                 <Mail className="h-5 w-5" />
               </div>
               <input
@@ -80,7 +81,7 @@ function LoginForm() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
                 placeholder="name@company.com"
               />
             </div>
@@ -89,7 +90,7 @@ function LoginForm() {
           <div className="space-y-2">
             <label className="text-sm font-bold opacity-80 ml-1">Password</label>
             <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                 <Lock className="h-5 w-5" />
               </div>
               <input
@@ -97,13 +98,13 @@ function LoginForm() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-12 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all"
+                className="w-full pl-12 pr-12 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-foreground"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
@@ -126,25 +127,7 @@ function LoginForm() {
 export default function LoginPage() {
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col transition-colors duration-300">
-      <header className="p-6">
-        <div className="mx-auto max-w-7xl flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            {/* LOGO INTEGRATION */}
-            <div className="relative h-9 w-9 overflow-hidden rounded-lg transition-transform group-hover:scale-105">
-              <Image
-                src="/assets/logo.ico"
-                alt="Spewpay Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="text-lg font-bold tracking-tight text-foreground uppercase">
-              SPEWPAY
-            </span>
-          </Link>
-          <ThemeToggle />
-        </div>
-      </header>
+      <SimpleHeader />
 
       <main className="flex-1 flex items-center justify-center p-4">
         <Suspense fallback={<Loader2 className="animate-spin h-10 w-10 text-emerald-500" />}>
