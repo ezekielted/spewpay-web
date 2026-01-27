@@ -43,7 +43,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [creatingWallet, setCreatingWallet] = useState(false);
-  const [showBalance, setShowBalance] = useState(true);
+  const [showBalance, setShowBalance] = useState(false);
 
   // Helper: Get current date string
   const currentDate = new Date().toLocaleDateString('en-GB', { 

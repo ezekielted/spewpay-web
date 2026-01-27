@@ -34,7 +34,7 @@ export default function HistoryPage() {
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [wallet, setWallet] = useState<any>(null);
-    const [showAmounts, setShowAmounts] = useState(true);
+    const [showAmounts, setShowAmounts] = useState(false);
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
