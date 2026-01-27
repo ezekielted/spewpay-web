@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { walletService, userService } from "../../services";
 import { 
+  Eye,
+  EyeOff,
   Plus, 
   ArrowUpRight, 
   ArrowDownLeft, 
@@ -41,6 +43,7 @@ export default function DashboardPage() {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [creatingWallet, setCreatingWallet] = useState(false);
+  const [showBalance, setShowBalance] = useState(true);
 
   // Helper: Get current date string
   const currentDate = new Date().toLocaleDateString('en-GB', { 
@@ -173,10 +176,18 @@ export default function DashboardPage() {
             <div className="relative z-10 flex flex-col h-full justify-between gap-6">
                <div className="flex items-start justify-between">
                   <div className="space-y-1">
-                    <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Total Balance</p>
+                    <div className="flex items-center gap-3">
+                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Total Balance</p>
+                         <button 
+                            onClick={() => setShowBalance(!showBalance)}
+                            className="text-slate-500 hover:text-white transition-colors"
+                         >
+                            {showBalance ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                         </button>
+                    </div>
                     <div className="flex items-center gap-3">
                       <h2 className="text-3xl md:text-5xl font-black tracking-tighter">
-                        {formatCurrency(wallet.displayBalance)}
+                        {showBalance ? formatCurrency(wallet.displayBalance) : '****'}
                       </h2>
                       <button onClick={fetchData} className="text-slate-500 hover:text-white transition-colors p-1">
                         <RefreshCw className="h-4 w-4" />
@@ -275,7 +286,7 @@ export default function DashboardPage() {
                   <div className="text-right">
                     <p className={`font-black text-sm md:text-base tracking-tight ${tx.type === 'DEPOSIT' ? 'text-emerald-600' : 'text-foreground'}`}>
                       {tx.type === 'DEPOSIT' ? '+' : '-'}
-                      {formatCurrency(tx.amount)}
+                      {showBalance ? formatCurrency(tx.amount) : '***'}
                     </p>
                     <div className="flex items-center justify-end gap-1.5 mt-1">
                       <span className={`h-1.5 w-1.5 rounded-full ${tx.status === 'COMPLETED' ? 'bg-emerald-500' : 'bg-amber-500'}`} />

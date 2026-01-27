@@ -13,6 +13,8 @@ import {
     RefreshCw,
     Search,
     X,
+    Eye,
+    EyeOff
 } from "lucide-react";
 
 interface Transaction {
@@ -32,6 +34,7 @@ export default function HistoryPage() {
     const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
     const [loading, setLoading] = useState(true);
     const [wallet, setWallet] = useState<any>(null);
+    const [showAmounts, setShowAmounts] = useState(true);
 
     // Pagination
     const [currentPage, setCurrentPage] = useState(1);
@@ -225,13 +228,22 @@ export default function HistoryPage() {
                         View all your deposits, withdrawals, and transfers
                     </p>
                 </div>
-                <button
-                    onClick={fetchData}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-fit"
-                >
-                    <RefreshCw className="h-4 w-4" />
-                    Refresh
-                </button>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setShowAmounts(!showAmounts)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-fit"
+                    >
+                        {showAmounts ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        {showAmounts ? 'Hide Balance' : 'Show Balance'}
+                    </button>
+                    <button
+                        onClick={fetchData}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-border font-bold text-sm hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors w-fit"
+                    >
+                        <RefreshCw className="h-4 w-4" />
+                        Refresh
+                    </button>
+                </div>
             </div>
 
             {/* Filters */}
@@ -394,7 +406,7 @@ export default function HistoryPage() {
                                                     }`}
                                             >
                                                 {tx.type === "DEPOSIT" ? "+" : "-"}
-                                                {formatCurrency(tx.amount)}
+                                                {showAmounts ? formatCurrency(tx.amount) : "***"}
                                             </p>
                                         </div>
                                     </div>
