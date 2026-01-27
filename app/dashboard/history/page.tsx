@@ -18,7 +18,7 @@ import {
 interface Transaction {
     id: string;
     type: "DEPOSIT" | "WITHDRAWAL" | "TRANSFER";
-    amount: number;
+    amount: any; // Updated to handle object or number
     status: "PENDING" | "COMPLETED" | "FAILED";
     createdAt: string;
     reference?: string;
@@ -113,21 +113,19 @@ export default function HistoryPage() {
         currentPage * itemsPerPage
     );
 
-    const formatCurrency = (amount: number | undefined | null) => {
-        // Handle undefined, null, or NaN
-        if (amount === undefined || amount === null || isNaN(amount)) {
-            return new Intl.NumberFormat("en-NG", {
-                style: "currency",
-                currency: "NGN",
-            }).format(0);
+    const formatCurrency = (amount: any) => {
+        let value = 0;
+        if (typeof amount === 'object' && amount !== null) {
+            value = parseFloat(amount.kobo || amount.amount || amount.balance || 0);
+        } else {
+            value = parseFloat(amount || 0);
         }
-        // If amount is already in Naira (small number), use as-is
-        // If amount is in Kobo (large number like 500000 for ₦5000), divide by 100
-        const normalizedAmount = amount > 100000 ? amount / 100 : amount;
-        return new Intl.NumberFormat("en-NG", {
-            style: "currency",
-            currency: "NGN",
-        }).format(normalizedAmount);
+
+        if (isNaN(value)) return "₦0.00";
+        return new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+        }).format(value / 100);
     };
 
     const formatDate = (dateString: string) => {
