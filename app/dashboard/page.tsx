@@ -150,11 +150,11 @@ export default function DashboardPage() {
       {/* 1. HERO SECTION - Compact Balance Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
-        {/* Balance Card - Redesigned to be less obstructive */}
-        <div className="lg:col-span-2 relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-800 text-white shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[200px] group">
+        {/* Balance Card - Redesigned to be theme-aware */}
+        <div className="lg:col-span-2 relative overflow-hidden rounded-3xl bg-slate-50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 text-slate-900 dark:text-white shadow-xl dark:shadow-2xl p-6 md:p-8 flex flex-col justify-between min-h-[200px] group border border-slate-200 dark:border-none">
           
-          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/20 blur-[80px] -mr-20 -mt-20 rounded-full pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/20 blur-[60px] -ml-10 -mb-10 rounded-full pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 dark:bg-emerald-500/20 blur-[80px] -mr-20 -mt-20 rounded-full pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-500/10 dark:bg-indigo-500/20 blur-[60px] -ml-10 -mb-10 rounded-full pointer-events-none" />
 
           {!wallet ? (
              <div className="relative z-10 flex flex-col h-full justify-between gap-4">
@@ -177,10 +177,10 @@ export default function DashboardPage() {
                <div className="flex items-start justify-between">
                   <div className="space-y-1">
                     <div className="flex items-center gap-3">
-                         <p className="text-xs font-bold uppercase tracking-widest text-slate-400">Total Balance</p>
+                         <p className="text-xs font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400">Total Balance</p>
                          <button 
                             onClick={() => setShowBalance(!showBalance)}
-                            className="text-slate-500 hover:text-white transition-colors"
+                            className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white transition-colors"
                          >
                             {showBalance ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                          </button>
@@ -189,23 +189,23 @@ export default function DashboardPage() {
                       <h2 className="text-3xl md:text-5xl font-black tracking-tighter">
                         {showBalance ? formatCurrency(wallet.displayBalance) : '****'}
                       </h2>
-                      <button onClick={fetchData} className="text-slate-500 hover:text-white transition-colors p-1">
+                      <button onClick={fetchData} className="text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-white transition-colors p-1">
                         <RefreshCw className="h-4 w-4" />
                       </button>
                     </div>
                   </div>
-                  <div className="h-10 w-10 bg-white/5 rounded-full flex items-center justify-center border border-white/10 backdrop-blur-sm">
-                    <CreditCard className="h-5 w-5 text-emerald-400" />
+                  <div className="h-10 w-10 bg-slate-200/50 dark:bg-white/5 rounded-full flex items-center justify-center border border-slate-200 dark:border-white/10 backdrop-blur-sm">
+                    <CreditCard className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
                </div>
 
-               <div className="flex items-center gap-3 pt-4 border-t border-white/5">
-                 <div className="flex items-center gap-2 text-xs font-medium text-slate-300">
-                    <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+               <div className="flex items-center gap-3 pt-4 border-t border-slate-200 dark:border-white/5">
+                 <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" />
                     Active Wallet
                  </div>
-                 <span className="text-slate-600">|</span>
-                 <p className="text-xs font-mono text-slate-400 tracking-wider">
+                 <span className="text-slate-300 dark:text-slate-600">|</span>
+                 <p className="text-xs font-mono text-slate-500 dark:text-slate-400 tracking-wider">
                    ID: {(wallet.id || wallet.uuid || "").slice(0, 8)}...
                  </p>
                </div>
