@@ -123,7 +123,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Mobile Header (Minimal) --- */}
       <div className="md:hidden flex items-center justify-between p-4 border-b border-border bg-background/80 backdrop-blur-md sticky top-0 z-30">
         <div className="flex items-center gap-2">
-          {/* LOGO INTEGRATION - MOBILE */}
+          {/* LOGO INTEGRATION - MOBILE ONLY (Desktop has sidebar logo) */}
           <div className="relative h-8 w-8 overflow-hidden rounded-lg">
             <Image
               src="/assets/logo.ico"
@@ -147,7 +147,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Mobile Bottom Navigation (Fixed) --- */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/90 backdrop-blur-xl border-t border-border pb-safe">
         <nav className="flex items-center justify-around p-2">
-          {navItems.map((item) => {
+          {navItems.filter(item => item.label !== "Settings").map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
