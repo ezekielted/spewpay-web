@@ -4,10 +4,12 @@ import { useState, Suspense } from "react";
 import Link from "next/link";
 // Image import removed as it is in SimpleHeader
 import { useRouter, useSearchParams } from "next/navigation";
-import { ArrowRight, Mail, Lock, Eye, EyeOff, ChevronLeft, Loader2, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Mail, Lock, Eye, EyeOff, ChevronLeft, Loader2, CheckCircle2, Fingerprint } from "lucide-react";
 // ThemeToggle removed as it is in SimpleHeader
 import { authService } from "../../services";
 import { SimpleHeader } from "@/components/layout/SimpleHeader";
+
+type AuthView = "login" | "forgot" | "reset";
 
 // 1. Move the actual logic into a separate component
 function LoginForm() {
@@ -15,11 +17,15 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const isRegistered = searchParams.get("registered") === "true";
 
+  const [view, setView] = useState<AuthView>("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,24 +48,85 @@ function LoginForm() {
     }
   };
 
+  const handleForgot = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setSuccess(null);
+
+    try {
+      await authService.forgotPassword(email);
+      setSuccess("OTP sent to your email!");
+      setView("reset");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to send reset OTP");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await authService.resetPassword({ token: otp, password: newPassword });
+      setSuccess("Password reset successfully! Please log in.");
+      setView("login");
+      setOtp("");
+      setNewPassword("");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to reset password. Check your OTP.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const renderTitle = () => {
+    switch(view) {
+      case "forgot": return "Reset password";
+      case "reset": return "Verify OTP";
+      default: return "Welcome back";
+    }
+  };
+
+  const renderSubtitle = () => {
+    switch(view) {
+      case "forgot": return "Enter your email to receive a reset OTP.";
+      case "reset": return "Enter the OTP sent to your email and your new password.";
+      default: return "Enter your details to access your account.";
+    }
+  };
+
   return (
     <div className="w-full max-w-md">
-      <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 mb-8 transition-colors">
-        <ChevronLeft className="h-4 w-4" /> Back to home
-      </Link>
+      <button 
+        onClick={() => view === "login" ? router.push("/") : setView("login")}
+        className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-emerald-600 mb-8 transition-colors"
+      >
+        <ChevronLeft className="h-4 w-4" /> {view === "login" ? "Back to home" : "Back to login"}
+      </button>
 
-      {isRegistered && !error && (
+      {isRegistered && view === "login" && !error && !success && (
         <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
           <CheckCircle2 className="h-5 w-5" />
           <p className="text-sm font-bold">Registration successful! Please sign in.</p>
         </div>
       )}
 
+      {success && (
+        <div className="mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 flex items-center gap-3 animate-in fade-in slide-in-from-top-4">
+          <CheckCircle2 className="h-5 w-5" />
+          <p className="text-sm font-bold">{success}</p>
+        </div>
+      )}
+
       <div className="rounded-3xl border border-border bg-card p-8 shadow-xl">
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-foreground">Welcome back</h1>
+          <h1 className="text-3xl font-extrabold text-foreground">{renderTitle()}</h1>
           <p className="text-muted-foreground font-medium mt-2">
-            Enter your details to access your account.
+            {renderSubtitle()}
           </p>
         </div>
 
@@ -69,55 +136,155 @@ function LoginForm() {
           </div>
         )}
 
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div className="space-y-2">
-            <label className="text-sm font-bold opacity-80 ml-1">Email</label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Mail className="h-5 w-5" />
+        {view === "login" && (
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-sm font-bold opacity-80 ml-1">Email</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
+                  placeholder="name@company.com"
+                />
               </div>
-              <input
-                type="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
-                placeholder="name@company.com"
-              />
             </div>
-          </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-bold opacity-80 ml-1">Password</label>
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                <Lock className="h-5 w-5" />
+            <div className="space-y-2">
+              <div className="flex items-center justify-between ml-1">
+                <label className="text-sm font-bold opacity-80">Password</label>
+                <button 
+                  type="button"
+                  onClick={() => setView("forgot")}
+                  className="text-xs font-bold text-emerald-600 hover:text-emerald-500 transition-colors"
+                >
+                  Forgot password?
+                </button>
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-12 pr-12 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
-                placeholder="••••••••"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-              >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <Lock className="h-5 w-5" />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-12 pr-12 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
             </div>
-          </div>
 
-          <button 
-            disabled={isLoading}
-            className="w-full flex items-center justify-center gap-2 rounded-full glass-button text-foreground px-8 py-4 font-bold disabled:opacity-70"
-          >
-            {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Sign in <ArrowRight className="h-4 w-4" /></>}
-          </button>
-        </form>
+            <button 
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 rounded-full glass-button text-foreground px-8 py-4 font-bold disabled:opacity-70"
+            >
+              {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Sign in <ArrowRight className="h-4 w-4" /></>}
+            </button>
+          </form>
+        )}
+
+        {view === "forgot" && (
+          <form onSubmit={handleForgot} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-sm font-bold opacity-80 ml-1">Email address</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <Mail className="h-5 w-5" />
+                </div>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
+                  placeholder="name@company.com"
+                />
+              </div>
+            </div>
+
+            <button 
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 rounded-full glass-button text-foreground px-8 py-4 font-bold disabled:opacity-70"
+            >
+              {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Send OTP <ArrowRight className="h-4 w-4" /></>}
+            </button>
+          </form>
+        )}
+
+        {view === "reset" && (
+          <form onSubmit={handleReset} className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-sm font-bold opacity-80 ml-1">Reset OTP</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <Fingerprint className="h-5 w-5" />
+                </div>
+                <input
+                  type="text"
+                  required
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
+                  placeholder="Enter 6-digit OTP"
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold opacity-80 ml-1">New Password</label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                  <Lock className="h-5 w-5" />
+                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full pl-12 pr-12 py-3.5 rounded-2xl border border-border bg-background text-foreground focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-muted-foreground/50"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                >
+                  {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                </button>
+              </div>
+            </div>
+
+            <button 
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 rounded-full glass-button text-foreground px-8 py-4 font-bold disabled:opacity-70"
+            >
+              {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Reset Password <ArrowRight className="h-4 w-4" /></>}
+            </button>
+          </form>
+        )}
+      </div>
+
+      <div className="mt-8 text-center">
+        <p className="text-muted-foreground font-medium">
+          Don't have an account?{" "}
+          <Link href="/signup" className="text-emerald-500 font-bold hover:underline">
+            Create account
+          </Link>
+        </p>
       </div>
     </div>
   );

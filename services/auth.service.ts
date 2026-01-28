@@ -7,4 +7,10 @@ export const authService = {
 
   // Standard login endpoint: POST /api/v1/auth/login
   login: (credentials: any) => apiClient.post('/auth/login', credentials),
+
+  // Forgot password: POST /api/v1/auth/forgot-password
+  forgotPassword: (email: string) => apiClient.post('/auth/forgot-password', { email }),
+
+  // Reset password: POST /api/v1/auth/reset-password
+  resetPassword: (data: any) => apiClient.post('/auth/reset-password', data),
 };
