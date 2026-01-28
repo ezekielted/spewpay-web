@@ -26,7 +26,14 @@ apiClient.interceptors.response.use(
                          error.config?.url?.includes('/auth/register') ||
                          error.config?.url?.includes('/auth/verify-email');
     
-    if (!isAuthRequest && (error.response?.status === 401 || error.response?.status === 403)) {
+    // Specifically check for 404 on user routes as it often means account deleted
+    const isUserRequest = error.config?.url?.includes('/users/');
+    
+    const shouldLogout = error.response?.status === 401 || 
+                         error.response?.status === 403 || 
+                         (isUserRequest && error.response?.status === 404);
+
+    if (!isAuthRequest && shouldLogout) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
