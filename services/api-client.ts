@@ -21,12 +21,12 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 || error.response?.status === 403) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("userEmail");
-        window.location.href = "/login";
+        window.location.href = "/login?session_expired=true";
       }
     }
     return Promise.reject(error);

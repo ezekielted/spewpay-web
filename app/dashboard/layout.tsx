@@ -17,6 +17,7 @@ import {
   Settings
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { userService } from "../../services";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -45,11 +46,23 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   React.useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) {
+    const userId = localStorage.getItem("userId");
+    
+    if (!token || !userId) {
       router.push("/login");
       return;
     }
-    setUserEmail(localStorage.getItem("userEmail") || "user@spewpay.com");
+
+    // Verify user exists and token is valid
+    userService.getUserById(userId).then(res => {
+      const userData = res.data?.data || res.data;
+      setUserEmail(userData.email);
+    }).catch(err => {
+      // If unauthorized (401) or user not found (404), logout immediately
+      if (err.response?.status === 401 || err.response?.status === 404) {
+        handleLogout();
+      }
+    });
   }, [router]);
 
   return (
