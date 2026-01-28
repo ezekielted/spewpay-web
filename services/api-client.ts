@@ -21,7 +21,12 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401 || error.response?.status === 403) {
+    // Check if the request is an auth request to avoid breaking login/signup flows
+    const isAuthRequest = error.config?.url?.includes('/auth/login') || 
+                         error.config?.url?.includes('/auth/register') ||
+                         error.config?.url?.includes('/auth/verify-email');
+    
+    if (!isAuthRequest && (error.response?.status === 401 || error.response?.status === 403)) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");

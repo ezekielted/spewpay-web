@@ -58,8 +58,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       const userData = res.data?.data || res.data;
       setUserEmail(userData.email);
     }).catch(err => {
-      // If unauthorized (401) or user not found (404), logout immediately
-      if (err.response?.status === 401 || err.response?.status === 404) {
+      // If unauthorized (401), user not found (404), or forbidden (403), logout immediately
+      if (err.response?.status === 401 || err.response?.status === 404 || err.response?.status === 403) {
         handleLogout();
       }
     });
