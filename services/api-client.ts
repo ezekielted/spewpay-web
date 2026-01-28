@@ -23,10 +23,16 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("userEmail");
-        window.location.href = "/login";
+        // Skip redirect if already on login page or if it's the login request
+        const isLoginPage = window.location.pathname === "/login";
+        const isLoginRequest = error.config?.url?.includes("/auth/login");
+
+        if (!isLoginPage && !isLoginRequest) {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userId");
+          localStorage.removeItem("userEmail");
+          window.location.href = "/login";
+        }
       }
     }
     return Promise.reject(error);
