@@ -18,6 +18,7 @@ import {
     Settings,
     BookOpen,
     ArrowUpRight,
+    Trash2,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -44,6 +45,9 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [copied, setCopied] = useState<string | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+    const [deleteEmailInput, setDeleteEmailInput] = useState("");
     const router = useRouter();
 
     const handleLogout = () => {
@@ -124,6 +128,28 @@ export default function ProfilePage() {
         }
     };
 
+
+ 
+    const handleDeleteAccount = async () => {
+        if (!user || deleteEmailInput !== user.email) return;
+        
+        try {
+            setIsDeleting(true);
+            setError(null);
+            await userService.deleteUser(user.id);
+            
+            // Clear session and redirect
+            localStorage.removeItem("token");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("userEmail");
+            router.push("/");
+        } catch (err: any) {
+            setError(err.response?.data?.message || "Failed to delete account");
+            setShowDeleteConfirm(false);
+        } finally {
+            setIsDeleting(false);
+        }
+    };
 
     const copyToClipboard = (text: string, field: string) => {
         navigator.clipboard.writeText(text).then(() => {
@@ -322,6 +348,66 @@ export default function ProfilePage() {
                                 </div>
                             </div>
                         </button>
+                    </div>
+
+                    {/* Danger Zone */}
+                    <div className="rounded-3xl bg-red-50/50 dark:bg-red-500/5 border border-red-200 dark:border-red-500/20 p-8 space-y-6">
+                        <div className="flex items-center gap-3 text-red-600">
+                            <AlertCircle className="h-6 w-6" />
+                            <h3 className="text-xl font-black">Danger Zone</h3>
+                        </div>
+                        
+                        {!showDeleteConfirm ? (
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div>
+                                    <p className="font-bold text-red-600">Delete Account</p>
+                                    <p className="text-sm text-slate-500 font-medium">
+                                        Once you delete your account, there is no going back. Please be certain.
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setShowDeleteConfirm(true)}
+                                    className="px-6 py-3 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 transition-colors flex items-center gap-2"
+                                >
+                                    <Trash2 className="h-4 w-4" />
+                                    Delete My Account
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="space-y-4 animate-in fade-in slide-in-from-top-4">
+                                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-red-200 dark:border-red-500/20">
+                                    <p className="text-sm font-bold mb-3">
+                                        To confirm, please type your email address: <span className="text-red-600">{user?.email}</span>
+                                    </p>
+                                    <input
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        value={deleteEmailInput}
+                                        onChange={(e) => setDeleteEmailInput(e.target.value)}
+                                        className="w-full px-4 py-3 rounded-xl border border-red-200 dark:border-red-500/20 bg-background focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all font-medium"
+                                    />
+                                </div>
+                                <div className="flex flex-col sm:flex-row gap-3">
+                                    <button
+                                        onClick={handleDeleteAccount}
+                                        disabled={isDeleting || deleteEmailInput !== user?.email}
+                                        className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-red-600 text-white font-bold hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        {isDeleting ? <Loader2 className="h-5 w-5 animate-spin" /> : "Permanently Delete Account"}
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setShowDeleteConfirm(false);
+                                            setDeleteEmailInput("");
+                                        }}
+                                        disabled={isDeleting}
+                                        className="flex-1 px-6 py-4 rounded-2xl bg-slate-200 dark:bg-slate-800 text-foreground font-bold hover:bg-slate-300 dark:hover:bg-slate-700 transition-all text-center"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
 
