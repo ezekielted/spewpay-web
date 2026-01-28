@@ -67,17 +67,6 @@ export default function DashboardPage() {
       if (userRes.status === 'fulfilled') {
         const userData = userRes.value.data?.data || userRes.value.data;
         setUser(userData);
-      } else {
-        // If profile fetch fails with 401, 403 or 404, we should trigger a logout
-        // The api-client interceptor might handle this, but explicit check here ensures no dummy render
-        const err: any = userRes.reason;
-        if (err.response?.status === 401 || err.response?.status === 404 || err.response?.status === 403) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userId");
-            localStorage.removeItem("userEmail");
-            window.location.href = "/login?session_expired=true";
-            return;
-        }
       }
 
       if (walletRes.status === 'fulfilled') {

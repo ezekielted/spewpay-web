@@ -21,24 +21,12 @@ apiClient.interceptors.request.use((config) => {
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Check if the request is an auth request to avoid breaking login/signup flows
-    const isAuthRequest = error.config?.url?.includes('/auth/login') || 
-                         error.config?.url?.includes('/auth/register') ||
-                         error.config?.url?.includes('/auth/verify-email');
-    
-    // Specifically check for 404 on user routes as it often means account deleted
-    const isUserRequest = error.config?.url?.includes('/users/');
-    
-    const shouldLogout = error.response?.status === 401 || 
-                         error.response?.status === 403 || 
-                         (isUserRequest && error.response?.status === 404);
-
-    if (!isAuthRequest && shouldLogout) {
+    if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
         localStorage.removeItem("token");
         localStorage.removeItem("userId");
         localStorage.removeItem("userEmail");
-        window.location.href = "/login?session_expired=true";
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);
