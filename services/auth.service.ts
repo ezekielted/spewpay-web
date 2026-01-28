@@ -13,4 +13,7 @@ export const authService = {
 
   // Reset password: POST /api/v1/auth/reset-password
   resetPassword: (data: any) => apiClient.post('/auth/reset-password', data),
+
+  // Verify email: POST /api/v1/auth/verify-email
+  verifyEmail: (data: { email: string; token: string }) => apiClient.post('/auth/verify-email', data),
 };

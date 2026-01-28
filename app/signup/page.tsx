@@ -51,7 +51,7 @@ export default function SignupPage() {
       const response = await authService.signup(payload);
 
       if (response.status === 201 || response.status === 200) {
-        router.push("/login?registered=true");
+        router.push(`/login?verify=true&email=${encodeURIComponent(formData.identifier)}`);
       }
     } catch (err: any) {
       const message = err.response?.data?.message || "Registration failed";
