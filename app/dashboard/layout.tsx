@@ -134,8 +134,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </div>
           <span className="font-black uppercase tracking-tighter text-lg text-foreground">Spewpay</span>
         </div>
-        <Link href="/dashboard/settings" className="p-2 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground transition-colors">
-            <Settings className="h-5 w-5" />
+        <Link href="/dashboard/profile" className="p-2 rounded-xl bg-card border border-border text-muted-foreground hover:text-foreground transition-colors">
+            <User className="h-5 w-5" />
         </Link>
       </div>
 
@@ -147,7 +147,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       {/* --- Mobile Bottom Navigation (Fixed) --- */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-card/90 backdrop-blur-xl border-t border-border pb-safe">
         <nav className="flex items-center justify-around p-2">
-          {navItems.filter(item => item.label !== "Settings").map((item) => {
+          {navItems.filter(item => 
+            ["Overview", "Deposit", "Send", "History", "Organizations"].includes(item.label)
+          ).map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link

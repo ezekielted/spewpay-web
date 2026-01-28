@@ -16,6 +16,8 @@ import {
     Check,
     LogOut,
     Settings,
+    BookOpen,
+    ArrowUpRight,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -187,7 +189,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-8">
-                {/* Main Profile Card */}
+                {/* Main Profile Column */}
                 <div className="lg:col-span-2 space-y-6">
                     {/* User Info Card */}
                     <div className="rounded-3xl bg-card border border-border p-8">
@@ -212,7 +214,6 @@ export default function ProfilePage() {
                         </div>
 
                         <div className="space-y-4">
-                            {/* Email */}
                             <div className="flex items-center justify-between p-4 rounded-2xl bg-background border border-border">
                                 <div className="flex items-center gap-4">
                                     <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
@@ -237,7 +238,6 @@ export default function ProfilePage() {
                                 </button>
                             </div>
 
-                            {/* User ID */}
                             <div className="flex items-center justify-between p-4 rounded-2xl bg-background border border-border">
                                 <div className="flex items-center gap-4">
                                     <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
@@ -262,7 +262,6 @@ export default function ProfilePage() {
                                 </button>
                             </div>
 
-                            {/* Member Since */}
                             <div className="flex items-center justify-between p-4 rounded-2xl bg-background border border-border">
                                 <div className="flex items-center gap-4">
                                     <div className="h-10 w-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">
@@ -281,8 +280,21 @@ export default function ProfilePage() {
                         </div>
                     </div>
 
-                    {/* Preferences & Actions */}
+                    {/* Preferences & Hub */}
                     <div className="grid md:grid-cols-2 gap-6">
+                        <Link href="/dashboard/ledger" className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-emerald-500/30 transition-all group shadow-sm">
+                            <div className="flex items-center gap-4">
+                                <div className="h-12 w-12 rounded-2xl bg-indigo-500/10 text-indigo-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                    <BookOpen className="h-6 w-6" />
+                                </div>
+                                <div>
+                                    <p className="font-bold">Ledger</p>
+                                    <p className="text-xs text-slate-500">Transaction records and audits</p>
+                                </div>
+                            </div>
+                            <ArrowUpRight className="h-5 w-5 text-slate-300 group-hover:text-indigo-500 transition-colors" />
+                        </Link>
+
                         <Link href="/dashboard/settings/appearance" className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-emerald-500/30 transition-all group shadow-sm">
                             <div className="flex items-center gap-4">
                                 <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -298,7 +310,7 @@ export default function ProfilePage() {
 
                         <button
                             onClick={handleLogout}
-                            className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-red-500/30 transition-all group shadow-sm text-left"
+                            className="flex items-center justify-between p-6 rounded-3xl bg-card border border-border hover:border-red-500/30 transition-all group shadow-sm text-left md:col-span-2"
                         >
                             <div className="flex items-center gap-4">
                                 <div className="h-12 w-12 rounded-2xl bg-red-500/10 text-red-600 flex items-center justify-center group-hover:scale-110 transition-transform">
