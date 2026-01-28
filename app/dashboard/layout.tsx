@@ -44,8 +44,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   };
 
   React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      router.push("/login");
+      return;
+    }
     setUserEmail(localStorage.getItem("userEmail") || "user@spewpay.com");
-  }, []);
+  }, [router]);
 
   return (
     <div className="min-h-screen bg-background flex flex-col md:flex-row">
