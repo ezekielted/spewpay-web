@@ -16,4 +16,7 @@ export const authService = {
 
   // Verify email: POST /api/v1/auth/verify-email
   verifyEmail: (data: { email: string; token: string }) => apiClient.post('/auth/verify-email', data),
+
+  // Resend verification email: POST /api/v1/auth/resend-verification-email
+  resendVerificationEmail: (email: string) => apiClient.post('/auth/resend-verification-email', { email }),
 };

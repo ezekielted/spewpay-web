@@ -340,6 +340,27 @@ function LoginForm() {
             >
               {isLoading ? <Loader2 className="animate-spin h-5 w-5" /> : <>Verify Email <ArrowRight className="h-4 w-4" /></>}
             </button>
+
+            <button
+              type="button"
+              onClick={async () => {
+                setIsLoading(true);
+                setError(null);
+                setSuccess(null);
+                try {
+                  await authService.resendVerificationEmail(email);
+                  setSuccess("Verification code resent to your email.");
+                } catch (err: any) {
+                  setError(err.response?.data?.message || "Failed to resend verification code.");
+                } finally {
+                  setIsLoading(false);
+                }
+              }}
+              disabled={isLoading}
+              className="w-full text-center text-sm font-bold text-emerald-600 hover:text-emerald-500 transition-colors disabled:opacity-70"
+            >
+              Resend OTP
+            </button>
           </form>
         )}
       </div>
